@@ -8,7 +8,7 @@ public class putinHuylo {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-            System.Out.Print("Putin Huylo!!!");
+            System.out.print("Putin Huylo!!!");
 	}
 
 }
