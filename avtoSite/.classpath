@@ -8,5 +8,8 @@
 	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-ooxml-3.9-20121203.jar"/>
 	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-ooxml-schemas-3.9-20121203.jar"/>
 	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-scratchpad-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="D:/work/jdbc driver/google-gson-2.2.4/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="D:/work/jdbc driver/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/work/jdbc driver/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
