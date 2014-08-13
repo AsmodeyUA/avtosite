@@ -30,6 +30,12 @@ public class import_obig1c {
 		}
 	}
 
+	boolean is_product(product[] prod,String name){
+		for(int i=0;i<product.getMax_id();i++)
+			if (prod[i].getName()==name.toString()) return true;
+
+		return false;
+	}
 
 	protected String excelfilenameread;
 	protected InputStream in;
@@ -56,11 +62,12 @@ public class import_obig1c {
 			String count="";
 
 
-			if ((colRow > startpos)&&(colRow < 100)) {
+			if (colRow > startpos) {
 				Iterator<Cell> cells = row.iterator();
 				while (cells.hasNext()) {
 					k++;
 					Cell cell = cells.next();
+					cell.setCellType(Cell.CELL_TYPE_STRING);
 					int cellType = cell.getCellType();
 					if (k == colname) {
 						name = cell.toString();
@@ -89,18 +96,20 @@ public class import_obig1c {
 					//System.out.println(k+"  "+temp_storing);
 				}
 				if (name!="") {
-					System.out.println(colRow+" "+name+"  "+description+" "+price+ " "+count);
-					System.out.println(product.getMax_id());
-					int prod_id = product.getMax_id();
-					prod[prod_id] = new product(name);
-					prod[prod_id].setName(name);
-					// System.out.println(p[prod_id].getName());
-					prod[prod_id].setModel(name);
-					prod[prod_id].setDescription(description);
-					prod[prod_id].setQuantity(count);
-					prod[prod_id].setPrice(price);
-					prod[prod_id].setManufacturer_id(man_id);
-					prod[prod_id].setCategory_id(parent_cat);
+					if (is_product(prod,name)==false){
+						int prod_id = product.getMax_id();
+						prod[prod_id] = new product(name);
+						prod[prod_id].setName(name);
+						// System.out.println(p[prod_id].getName());
+						prod[prod_id].setModel(name);
+						prod[prod_id].setDescription(description);
+						prod[prod_id].setQuantity(count);
+						prod[prod_id].setPrice(price);
+						prod[prod_id].setManufacturer_id(man_id);
+						prod[prod_id].setCategory_id(parent_cat);
+						System.out.println(colRow+" "+name+"  "+description+" "+price+ " "+count);
+						System.out.println(product.getMax_id());
+					}
 				}
 			}
 		}
