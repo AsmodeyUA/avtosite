@@ -13,76 +13,45 @@ import org.apache.poi.ss.usermodel.Cell;
 
 public class putinHuylo {
 
+	private static final String DEPRECATION = "deprecation";
+
 	public putinHuylo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings(DEPRECATION)
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		System.out.print("Putin Huylo!!!");
 		category[] categ=new category[1000];
-		//            String path = new String("/local/proba/3007.xls");
-		String path = new String("D:\\work\\Dani\\3007.xls");
-		String path1 = new String("D:\\work\\Dani\\3007_2.xls");
 		int q=category.getMax_id(); 
-		categ[q]=new category("Загальний");  	
+		categ[q]=new category("Загальний");
+		
+		manufacture[] manufact=new manufacture[1000];
+		int q1=manufacture.getMax_id(); 
+		manufact[q1]=new manufacture("Загальний");  	
+		
 		int startpos=9;
-		int manufacturer=0;
+		int manufacturerid=manufact[q1].getId();
 		int parent=categ[q].getId(); 
 		int colname=1; //artikul
 		int coldescr=4;
 		int colprice=10;
 		int colcount=14;
-
-		import_obig1c Data3007 = new import_obig1c(path);
-		product[] prod = new product[20000];
-		if (Data3007.open())
+		logger myLog=new logger();
+		myLog.start();
+		import_obig1c Data3007 = new import_obig1c(config.pathPrice);
+		if (Data3007.open(myLog))
 		{
-			Data3007.ReadRows(prod,manufacturer,parent,startpos,colname,coldescr,colprice,colcount);
-
-			HSSFWorkbook wb          = new HSSFWorkbook();
-			FileOutputStream fileOut = new FileOutputStream(path1);
-
-			HSSFSheet sheet;
-			
-			sheet = wb.createSheet();
-			HSSFRow row;
-			Cell cells;
-			for(int i=0;i<product.getMax_id();i++){
-				row     = sheet.createRow((short)i);
-				cells =row.createCell((short)0);
-				cells.setCellType(Cell.CELL_TYPE_STRING);
-				cells.setCellValue(prod[i].getId());					
-				cells =row.createCell((short)1);
-				cells.setCellType(Cell.CELL_TYPE_STRING);
-				cells.setCellValue(prod[i].getName());	
-				cells =row.createCell((short)2);
-				cells.setCellType(Cell.CELL_TYPE_STRING);
-				cells.setCellValue(prod[i].getDescription());					
-			}
-			
-
-			startpos=9;
-			Data3007.ReadRows(prod,manufacturer,parent,startpos,colname,coldescr,colprice,colcount);
-			
-			sheet = wb.createSheet();
-			for(int i=0;i<product.getMax_id();i++){
-				row     = sheet.createRow((short)i); 
-				cells =row.createCell((short)0);
-				cells.setCellType(Cell.CELL_TYPE_STRING);
-				cells.setCellValue(prod[i].getId());					
-				cells =row.createCell((short)1);
-				cells.setCellType(Cell.CELL_TYPE_STRING);
-				cells.setCellValue(prod[i].getName());	
-				cells =row.createCell((short)2);
-				cells.setCellType(Cell.CELL_TYPE_STRING);
-				cells.setCellValue(prod[i].getDescription());					
-			}
-						
-
-			wb.write(fileOut);
-			fileOut.close();
+			product[] prod = new product[20000];			
+			Data3007.ReadRows(prod,manufacturerid,parent,startpos,colname,coldescr,colprice,colcount);
+			Data3007.ExportToXLS(prod,config.pathDB);
+			product.setMax_id(0);		
+			product[] prod1 = new product[20000];
+			Data3007.ImportFromXLS(prod1,config.pathDB);
+			Data3007.ExportToXLS(prod1,config.pathDBold);
+			myLog.stop();
+			System.out.print("End!!!");
 			
 		}
 	}

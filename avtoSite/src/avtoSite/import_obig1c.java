@@ -1,12 +1,17 @@
 package avtoSite;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
@@ -16,13 +21,15 @@ public class import_obig1c {
 		excelfilenameread = name;
 		in = null;
 		wb = null;
+		myLog=null;
 	}
 
-	public boolean open() {
+	public boolean open(logger myLog1) {
 		try {
 			in = new FileInputStream(excelfilenameread);
 			wb = new HSSFWorkbook(in);
 			// wb1 = new HSSFWorkbook(out);
+			myLog=myLog1;
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -30,29 +37,126 @@ public class import_obig1c {
 		}
 	}
 
-	boolean is_product(product[] prod,String name){
+	boolean is_product(product[] prod,String name) throws IOException{
+		myLog.writeln("Compare - ["+name+"]");
 		for(int i=0;i<product.getMax_id();i++)
-			if (prod[i].getName()==name.toString()) return true;
-
+			if (name.equals(prod[i].getName())) return true;
+		myLog.writeln("New product");
 		return false;
 	}
 
 	protected String excelfilenameread;
 	protected InputStream in;
 	protected static HSSFWorkbook wb;
+	protected logger myLog;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 	}
 
+	public void ImportFromXLS(product[] prod,String path) throws IOException{
+		InputStream in1 = new FileInputStream(path);
+		HSSFWorkbook wb1 = new HSSFWorkbook(in1);
+		Sheet sheet = wb1.getSheetAt(0);
+		Iterator<Row> it = sheet.iterator();
+		String temp="undefined";int tempint=99;
+		while (it.hasNext()) {
+			Row row = it.next();
+			Iterator<Cell> cells = row.iterator();			
+			while (cells.hasNext()) {
+				Cell cell = cells.next();
+				temp=cell.toString();
+				System.out.println(temp);
+
+				cell = cells.next();
+				temp=cell.toString();
+				int prod_id = product.getMax_id();
+				prod[prod_id] = new product(temp);
+				System.out.println(temp);
+				
+				cell = cells.next();
+				temp=cell.toString();
+				prod[prod_id].setDescription(temp);
+				System.out.println(temp);				
+
+				cell = cells.next();
+				temp=cell.toString();
+				prod[prod_id].setModel(temp);
+				System.out.println(temp);	
+				
+				cell = cells.next();
+				temp=cell.toString();
+				tempint=(Double.valueOf(temp)).intValue();
+				prod[prod_id].setCategory_id(tempint);
+				System.out.println(tempint);	
+
+				cell = cells.next();
+				temp=cell.toString();
+				tempint=(Double.valueOf(temp)).intValue();
+				prod[prod_id].setManufacturer_id(tempint);
+				System.out.println(tempint);	
+
+				cell = cells.next();
+				temp=cell.toString();
+				prod[prod_id].setQuantity(temp);
+
+				cell = cells.next();
+				temp=cell.toString();
+				prod[prod_id].setPrice(temp);
+			}
+		}
+		in1.close();
+	}
+
+	@SuppressWarnings("deprecation")
+	public void ExportToXLS(product[] prod,String path) throws IOException{
+		HSSFWorkbook wb          = new HSSFWorkbook();
+		FileOutputStream fileOut = new FileOutputStream(path);
+		HSSFSheet sheet;
+		HSSFRow row;
+		Cell cells;	
+		sheet = wb.createSheet();
+		for(int i=0;i<product.getMax_id();i++){
+			row     = sheet.createRow((short)i); 
+			cells =row.createCell((short)0);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getId());					
+			cells =row.createCell((short)1);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getName());	
+			cells =row.createCell((short)2);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getDescription());
+			cells =row.createCell((short)3);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getModel());
+			cells =row.createCell((short)4);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getCategory_id());					
+			cells =row.createCell((short)5);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getManufacturer_id());								
+			cells =row.createCell((short)6);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getQuantity());			
+			cells =row.createCell((short)7);
+			cells.setCellType(Cell.CELL_TYPE_STRING);
+			cells.setCellValue(prod[i].getPrice());	
+		}
+		wb.write(fileOut);
+		fileOut.close();		
+
+	}	
+
 	//	public void ReadRows(category[] b, int parent_id, int colcategory, int startpos) {
 	public void ReadRows( product[] prod, int man_id, int parent_cat, int startpos, 
-			int colname, int coldescr, int colprice, int colcount) {
+			int colname, int coldescr, int colprice, int colcount) throws IOException {
 		Sheet sheet = wb.getSheetAt(0);
 		Iterator<Row> it = sheet.iterator();
-		String temp_storing = "xxx";
+		String stylestr="";
 		int colRow = 0;
+
 		while (it.hasNext()) {
 			Row row = it.next();
 			colRow++; int k=0;
@@ -60,17 +164,28 @@ public class import_obig1c {
 			String description="";
 			String price="";
 			String count="";
-
-
 			if (colRow > startpos) {
-				Iterator<Cell> cells = row.iterator();
+				Iterator<Cell> cells = row.iterator();			
 				while (cells.hasNext()) {
 					k++;
 					Cell cell = cells.next();
 					cell.setCellType(Cell.CELL_TYPE_STRING);
-					int cellType = cell.getCellType();
 					if (k == colname) {
-						name = cell.toString();
+						CellStyle style=cell.getCellStyle();
+						stylestr = style.getDataFormatString();
+						String tempname = cell.toString();
+						if (stylestr=="General"){
+							name=tempname;	
+						}
+						else
+						{
+							int len1=stylestr.length();
+							int len2=tempname.length();
+							for(int i=len2;i<len1;i++)
+								tempname = "0"+tempname;
+							name = tempname;
+						}
+						//name = cell.toString();
 					}
 					if (k == coldescr) {
 						description = cell.toString();
@@ -81,25 +196,12 @@ public class import_obig1c {
 					if (k == colcount) {
 						count = cell.toString();
 					}					
-
-					switch (cellType) {
-					case Cell.CELL_TYPE_STRING:
-						temp_storing = cell.getStringCellValue();
-						break;
-					case Cell.CELL_TYPE_NUMERIC:
-						temp_storing = "" + cell.getNumericCellValue();
-						break;
-					default:
-						temp_storing = "";
-						break;
-					}
-					//System.out.println(k+"  "+temp_storing);
 				}
 				if (name!="") {
 					if (is_product(prod,name)==false){
 						int prod_id = product.getMax_id();
 						prod[prod_id] = new product(name);
-						prod[prod_id].setName(name);
+						//prod[prod_id].setName(name);
 						// System.out.println(p[prod_id].getName());
 						prod[prod_id].setModel(name);
 						prod[prod_id].setDescription(description);
@@ -107,10 +209,15 @@ public class import_obig1c {
 						prod[prod_id].setPrice(price);
 						prod[prod_id].setManufacturer_id(man_id);
 						prod[prod_id].setCategory_id(parent_cat);
-						System.out.println(colRow+" "+name+"  "+description+" "+price+ " "+count);
-						System.out.println(product.getMax_id());
+						myLog.writeln(colRow+" "+name+"  "+description+" "+price+ " "+count);
+						myLog.writeln(name);
+						myLog.writeln(stylestr);
 					}
 				}
+				name="";
+				description="";
+				price="";
+				count="";
 			}
 		}
 	}
