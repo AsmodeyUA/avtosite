@@ -5,13 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class logger {
+public class sqllogger {
 
 	private String FileNameLog;
 	private OutputStream LogFile;
-	public logger() {
+	public sqllogger() {
 		// TODO Auto-generated constructor stub
-		FileNameLog = config.pathLOG;
+		FileNameLog =config.pathSQL;
 	}
 	public boolean start() throws FileNotFoundException{
 		LogFile = new FileOutputStream(FileNameLog);

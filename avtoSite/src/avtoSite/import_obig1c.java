@@ -1,7 +1,6 @@
 package avtoSite;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +27,6 @@ public class import_obig1c {
 		try {
 			in = new FileInputStream(excelfilenameread);
 			wb = new HSSFWorkbook(in);
-			// wb1 = new HSSFWorkbook(out);
 			myLog=myLog1;
 			return true;
 		} catch (IOException e) {
@@ -38,10 +36,8 @@ public class import_obig1c {
 	}
 
 	boolean is_product(product[] prod,String name) throws IOException{
-		myLog.writeln("Compare - ["+name+"]");
 		for(int i=0;i<product.getMax_id();i++)
 			if (name.equals(prod[i].getName())) return true;
-		myLog.writeln("New product");
 		return false;
 	}
 
@@ -185,7 +181,6 @@ public class import_obig1c {
 								tempname = "0"+tempname;
 							name = tempname;
 						}
-						//name = cell.toString();
 					}
 					if (k == coldescr) {
 						description = cell.toString();
@@ -201,17 +196,15 @@ public class import_obig1c {
 					if (is_product(prod,name)==false){
 						int prod_id = product.getMax_id();
 						prod[prod_id] = new product(name);
-						//prod[prod_id].setName(name);
-						// System.out.println(p[prod_id].getName());
 						prod[prod_id].setModel(name);
 						prod[prod_id].setDescription(description);
 						prod[prod_id].setQuantity(count);
 						prod[prod_id].setPrice(price);
 						prod[prod_id].setManufacturer_id(man_id);
 						prod[prod_id].setCategory_id(parent_cat);
-						myLog.writeln(colRow+" "+name+"  "+description+" "+price+ " "+count);
-						myLog.writeln(name);
-						myLog.writeln(stylestr);
+//						myLog.writeln(colRow+" "+name+"  "+description+" "+price+ " "+count);
+//						myLog.writeln(name);
+//						myLog.writeln(stylestr);
 					}
 				}
 				name="";

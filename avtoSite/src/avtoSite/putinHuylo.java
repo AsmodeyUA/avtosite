@@ -1,25 +1,13 @@
 package avtoSite;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 
 public class putinHuylo {
-
-	private static final String DEPRECATION = "deprecation";
 
 	public putinHuylo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	@SuppressWarnings(DEPRECATION)
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		System.out.print("Putin Huylo!!!");

@@ -99,6 +99,7 @@ public class cagegory_preparing {
 								b[q] = new category(category_name);
 								b[q].setParent_id(current_parent_id);
 								cat_id = q;
+								System.out.println(cat_id);
 								// System.out.println(category.getMax_id());
 								// System.out.println(b[q].toSql1String());
 								// System.out.println(b[q].toSql2String());
