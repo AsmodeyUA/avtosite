@@ -171,7 +171,7 @@ public class import_obig1c {
 						stylestr = style.getDataFormatString();
 						String tempname = cell.toString();
 						if (stylestr=="General"){
-							name=tempname;	
+							;	
 						}
 						else
 						{
@@ -179,11 +179,11 @@ public class import_obig1c {
 							int len2=tempname.length();
 							for(int i=len2;i<len1;i++)
 								tempname = "0"+tempname;
-							name = tempname;
 						}
+						name=tempname.replaceAll("'","_");
 					}
 					if (k == coldescr) {
-						description = cell.toString();
+						description = (cell.toString()).replaceAll("'","_");
 					}		
 					if (k == colprice) {
 						price = cell.toString();
