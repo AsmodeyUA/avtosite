@@ -14,10 +14,10 @@ import com.google.gson.Gson;
 
 public class SiteApi {
 
-	public static int foundimage(String name) throws IOException{
+	public static int foundimage(String name,String folder_name,String first_letter) throws IOException{
 		
 		String query = name;
-		File file=new File(config.pathIMG+'\\'+name);;
+		File file=new File(config.pathIMG+'\\'+folder_name);;
 		file.mkdir();
 		String charset = "UTF-8";
 	 	int q=0; 
@@ -32,11 +32,11 @@ public class SiteApi {
 				
 		        try {
 		        	q++;
-		        	System.out.println("Title: " + results.getResponseData().getResults().get(m).getTitle());
-					System.out.println("URL: " + results.getResponseData().getResults().get(m).getUrl() + "\n");
+		        	//System.out.println("Title: " + results.getResponseData().getResults().get(m).getTitle());
+					//System.out.println("URL: " + results.getResponseData().getResults().get(m).getUrl() + "\n");
 					URL url1 = new URL(results.getResponseData().getResults().get(m).getUrl());
 		        
-		        	String fileName = config.pathIMG+'\\'+name+"\\image_"+q+".jpg";         
+		        	String fileName = config.pathIMG+'\\'+folder_name+"\\image_"+first_letter+q+".jpg";         
 		            BufferedImage img = ImageIO.read(url1);
 		            file = new File(fileName);
 		            if (!file.exists()) {

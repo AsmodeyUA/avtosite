@@ -41,11 +41,18 @@ public class putinHuylo {
 			Data3007.ImportFromXLS(prod1,config.pathDB);
 			Data3007.ExportToXLS(prod1,config.pathDBold);*/
 			System.out.println("IMAGE!!!");		
-			
-			
-			//for (int i=0; i <product.getMax_id(); i++) SiteApi.foundimage(prod[i].getName());
-			for (int i=0; i <10; i++) SiteApi.foundimage(prod[i].getDescription());
-			
+
+
+			for (int i=0; i <product.getMax_id(); i++)
+			//for (int i=0; i <10; i++) 
+			{
+				System.out.println(prod[i].getName());
+				SiteApi.foundimage(prod[i].getName(),prod[i].getName(),"a");
+				SiteApi.foundimage(prod[i].getDescription(),prod[i].getName(),"b");
+				SiteApi.foundimage("артикул "+prod[i].getName(),prod[i].getName(),"c");
+				
+			}
+
 			System.out.println("SQL!!!");	
 
 			for(int i=0;i<category.getMax_id();i++) {
