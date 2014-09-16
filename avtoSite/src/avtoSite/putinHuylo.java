@@ -68,19 +68,24 @@ public class putinHuylo {
 					if (fList.length!=0){
 						for(int j=0; j<fList.length; j++)           
 						{
+							String pathTemp="";
 							if(fList[j].isFile()){
 								int prod_Image_id = prodImage.getMax_Img_Id();
-								prod_Image[prod_Image_id] = new prodImage();
 								String path1 = fList[j].getName();
-								prod_Image[prod_Image_id].setImg_path(path1);
+								pathTemp="/data/Image/"+folder_name+"/"+path1;
+								prod_Image[prod_Image_id] = new prodImage();
+								prod_Image[prod_Image_id].setImg_path(pathTemp);
 								prod_Image[prod_Image_id].setSort_order();
 								prod_Image[prod_Image_id].setProd_id(prod[i].getId());
 								System.out.println(prod_Image[prod_Image_id].toSql1String());
+								if (j==1){
+									prod[i].setImage(pathTemp);
+								}
 							}
 						}		
 					}	
 				}catch(Exception e){
-//					e.printStackTrace();
+					//					e.printStackTrace();
 				}
 			}
 
@@ -100,7 +105,10 @@ public class putinHuylo {
 				sqlLog.writeln(prod[i].toSqlDel2String());
 				sqlLog.writeln(prod[i].toSqlDel3String());
 				sqlLog.writeln(prod[i].toSqlDel4String());
-			}			
+			}		
+			for(int i=0;i<prodImage.getMax_Img_Id();i++) {
+				sqlLog.writeln(prod_Image[i].toSqlDel1String());
+			}
 
 			for(int i=0;i<category.getMax_id();i++) {
 				sqlLog.writeln(categ[i].toSql1String());
@@ -116,7 +124,10 @@ public class putinHuylo {
 				sqlLog.writeln(prod[i].toSql2String());
 				sqlLog.writeln(prod[i].toSql3String());
 				sqlLog.writeln(prod[i].toSql4String());
-			}		
+			}	
+			for(int i=0;i<prodImage.getMax_Img_Id();i++) {
+				sqlLog.writeln(prod_Image[i].toSql1String());
+			}
 
 			System.out.println("END!!!");
 		}

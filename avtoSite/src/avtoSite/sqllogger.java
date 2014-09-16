@@ -22,7 +22,7 @@ public class sqllogger {
 		return true;
 	}
 	public boolean write(String msg) throws IOException{
-		LogFile.write(msg.getBytes());
+		LogFile.write(msg.getBytes("UTF8"));
 		return true;
 	}
 	public boolean write(int msg) throws IOException{
@@ -37,7 +37,7 @@ public class sqllogger {
 	}
 	public boolean writeln(String msg) throws IOException{
 		msg=msg+"\n";
-		LogFile.write(msg.getBytes());
+		LogFile.write(msg.getBytes("UTF8"));
 		return true;
 	}
 	
