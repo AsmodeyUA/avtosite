@@ -17,7 +17,7 @@ public class SiteApi {
 	public static int foundimage(String name,String folder_name,String first_letter) throws IOException{
 		
 		String query = name;
-		File file=new File(config.pathIMG+'\\'+folder_name);;
+		File file=new File(config.pathIMG+'\\'+folder_name);
 		file.mkdir();
 		String charset = "UTF-8";
 	 	int q=0; 

@@ -170,7 +170,6 @@ public class product {
 		sql+="DELETE FROM  `oc_product` WHERE product_id =";
 		sql+=id;
 	    sql+=";";
-   	    
 		return sql;
 	}	
 

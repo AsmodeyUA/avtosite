@@ -1,5 +1,6 @@
 package avtoSite;
 
+import java.io.File;
 import java.io.IOException;
 
 public class putinHuylo {
@@ -33,8 +34,10 @@ public class putinHuylo {
 		import_obig1c Data3007 = new import_obig1c(config.pathPrice);
 		if (Data3007.open(myLog))
 		{
-			product[] prod = new product[20000];			
+			product[] prod = new product[20000];	
+			prodImage[] prod_Image = new prodImage[100000];	
 			Data3007.ReadRows(prod,manufacturerid,parent,startpos,colname,coldescr,colprice,colcount);
+
 			Data3007.ExportToXLS(prod,config.pathDB);
 			/*product.setMax_id(0);		
 			product[] prod1 = new product[20000];
@@ -43,14 +46,42 @@ public class putinHuylo {
 			System.out.println("IMAGE!!!");		
 
 
-			for (int i=0; i <product.getMax_id(); i++)
-			//for (int i=0; i <10; i++) 
+			for (int i=product.getMax_id(); i <product.getMax_id(); i++)
+				//for (int i=0; i <10; i++) 
 			{
 				System.out.println(prod[i].getName());
 				SiteApi.foundimage(prod[i].getName(),prod[i].getName(),"a");
 				SiteApi.foundimage(prod[i].getDescription(),prod[i].getName(),"b");
 				SiteApi.foundimage("артикул "+prod[i].getName(),prod[i].getName(),"c");
-				
+
+			}
+
+			for (int i=0; i <product.getMax_id(); i++)
+			{
+				System.out.println(prod[i].getName());
+				try{    
+					File []fList;       
+					String folder_name=prod[i].getName();
+					File F = new File(config.pathIMG+'\\'+folder_name);
+					fList = F.listFiles();
+
+					if (fList.length!=0){
+						for(int j=0; j<fList.length; j++)           
+						{
+							if(fList[j].isFile()){
+								int prod_Image_id = prodImage.getMax_Img_Id();
+								prod_Image[prod_Image_id] = new prodImage();
+								String path1 = fList[j].getName();
+								prod_Image[prod_Image_id].setImg_path(path1);
+								prod_Image[prod_Image_id].setSort_order();
+								prod_Image[prod_Image_id].setProd_id(prod[i].getId());
+								System.out.println(prod_Image[prod_Image_id].toSql1String());
+							}
+						}		
+					}	
+				}catch(Exception e){
+//					e.printStackTrace();
+				}
 			}
 
 			System.out.println("SQL!!!");	
