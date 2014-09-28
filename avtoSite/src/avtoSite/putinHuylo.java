@@ -130,6 +130,15 @@ public class putinHuylo {
 			}
 
 			System.out.println("END!!!");
+			
+			tecdocimport tecd=new tecdocimport();
+//			tecd.printSysTable();
+
+			tecd.exportPictures();
+//			tecd.exportManufacturers();
+			//tecd.exportModels();
+			System.out.println("END!!!");
+			
 		}
 		sqlLog.stop();
 		myLog.stop();
