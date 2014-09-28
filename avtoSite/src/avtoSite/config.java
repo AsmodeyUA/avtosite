@@ -8,7 +8,8 @@ public class config {
 	public static String pathSQL = new String("d:\\work\\Dani\\sqllog.txt");
 	public static String pathLOG = new String("d:\\work\\Dani\\log.txt");
 	public static String pathIMG = new String("d:\\work\\Dani\\Image");
-		
+	public static String pathIMGTecdoc = new String("d:\\work\\Dani\\TecdocImage");
+	
 	public config() {
 		// TODO Auto-generated constructor stub
 	}
