@@ -55,6 +55,7 @@ public class putinHuylo {
 				SiteApi.foundimage("артикул "+prod[i].getName(),prod[i].getName(),"c");
 
 			}
+			
 
 			for (int i=0; i <product.getMax_id(); i++)
 			{
@@ -134,7 +135,7 @@ public class putinHuylo {
 			tecdocimport tecd=new tecdocimport();
 //			tecd.printSysTable();
 
-			tecd.exportPictures();
+			tecd.exportPictures("hi");
 //			tecd.exportManufacturers();
 			//tecd.exportModels();
 			System.out.println("END!!!");

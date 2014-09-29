@@ -50,6 +50,14 @@ public class SiteApi {
 		}
 		return 0;
 	}
+	public static int foundImageTecdoc(String name,String folder_name,String first_letter) throws IOException{
+		
+		
+		
+		
+		
+		return 0;
+	}		
 	public SiteApi() {
 		// TODO Auto-generated constructor stub
 	}

@@ -27,10 +27,10 @@ import com.mysql.jdbc.ResultSetMetaData;
 
  @SuppressWarnings("unused")
 public class tecdocimport {
-	private static final String dbDriver = "sun.jdbc.odbc.JdbcOdbcDriver";
-    private static final String dbUrl = "jdbc:odbc:";
-	//private static final String dbDriver = "transbase.jdbc.Driver";
-    //private static final String dbUrl = "jdbc:transbase://192.168.1.2/";   
+	//private static final String dbDriver = "sun.jdbc.odbc.JdbcOdbcDriver";
+    //private static final String dbUrl = "jdbc:odbc:";
+	private static final String dbDriver = "transbase.jdbc.Driver";
+    private static final String dbUrl = "jdbc:transbase://192.168.1.51/";   
     private static final String dbDatabase = "TECDOC_CD_1_2013";
     private static final String dbUser = "tecdoc";
     private static final String dbPassword = "tcd_error_0";
@@ -214,7 +214,7 @@ public void exportModels() {
 }
 
 
-public void exportPictures() {
+public void exportPictures(String Artikul) {
     
     final String mysqlTable = "tof_graphics";
     
@@ -237,7 +237,7 @@ public void exportPictures() {
         System.out.println("Export pictures");
         
         st = connection.createStatement();
-        ResultSet result = st.executeQuery("SELECT LGA_ART_ID, GRA_ID, GRA_TAB_NR, GRA_GRD_ID, DOC_EXTENSION, GRA_LNG_ID FROM TOF_LINK_GRA_ART, TOF_GRAPHICS, TOF_DOC_TYPES WHERE DOC_TYPE=GRA_DOC_TYPE AND LGA_GRA_ID=GRA_ID AND GRA_TAB_NR IS NOT NULL ORDER BY GRA_TAB_NR");
+        ResultSet result = st.executeQuery("SELECT LGA_ART_ID, GRA_ID, GRA_TAB_NR, GRA_GRD_ID, DOC_EXTENSION, GRA_LNG_ID FROM TOF_LINK_GRA_ART, TOF_GRAPHICS, TOF_DOC_TYPES WHERE DOC_TYPE=GRA_DOC_TYPE AND LGA_GRA_ID=GRA_ID AND LGA_ART_ID=1116267 AND GRA_TAB_NR IS NOT NULL ORDER BY GRA_TAB_NR");
 
         
 //        ResultSetMetaData metaResult = result.getMetaData();
@@ -300,7 +300,7 @@ public void exportPictures() {
                     dir.mkdir();
                 }
                 
-                File file = new File(config.pathIMGTecdoc + "\\"+ tableNumber.get(i)+ "\\" + ids.get(i) + ".jpg");
+                File file = new File(config.pathIMGTecdoc + "\\"+ tableNumber.get(i)+ "\\" + ids.get(i) + ".jpx");
                 
                 System.out.print(i + " " +tableNumber.get(i)+ "-" + ids.get(i));
                 if (file.exists()) {
@@ -313,13 +313,13 @@ public void exportPictures() {
                 String sql1 = "SELECT GRD_GRAPHIC FROM TOF_GRA_DATA_" + tableNumber.get(i) + " WHERE GRD_ID=" + ids.get(i);
                 System.out.println(sql1);
                 ResultSet result2 = st3.executeQuery(sql1);
-                result2.next();
+                if(result2.next()){
                 byte[] data = result2.getBytes(1);
                 
                 output = new BufferedOutputStream(new FileOutputStream(file));
                 output.write(data);
-                output.close();
-                //this.convertImage(config.pathIMGTecdoc + "\\"+ tableNumber.get(i)+ "\\" + ids.get(i) + ".jpg");
+                output.close();}
+                this.convertImage(config.pathIMGTecdoc + "\\"+ tableNumber.get(i)+ "\\" + ids.get(i) + ".jpx");
               } catch(FileNotFoundException ex){
                   ex.printStackTrace();
               }
@@ -341,7 +341,11 @@ public boolean convertImage(String path) {
     try {
         
         Iterator<ImageReader> iter = ImageIO.getImageReadersByFormatName("JPEG2000");
-        ImageReader reader = iter.next();
+        ImageReader reader = null;
+        
+        while(iter.hasNext()){
+        	reader = (ImageReader)iter.next();
+        }
 
         if(reader == null) {
             System.out.println("Could not locate any Readers for the JPEG 2000 format image.");
