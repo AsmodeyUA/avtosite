@@ -30,7 +30,7 @@ public class tecdocimport {
 	//private static final String dbDriver = "sun.jdbc.odbc.JdbcOdbcDriver";
     //private static final String dbUrl = "jdbc:odbc:";
 	private static final String dbDriver = "transbase.jdbc.Driver";
-    private static final String dbUrl = "jdbc:transbase://192.168.1.51/";   
+    private static final String dbUrl = "jdbc:transbase://localhost/";   
     private static final String dbDatabase = "TECDOC_CD_1_2013";
     private static final String dbUser = "tecdoc";
     private static final String dbPassword = "tcd_error_0";
@@ -214,9 +214,10 @@ public void exportModels() {
 }
 
 
-public void exportPictures(String Artikul) {
+public void exportPictures(String ArtikulShort,String ArtikulFull) {
     
     final String mysqlTable = "tof_graphics";
+    int numPic=1;
     
     final String sqlDropTable = "DROP TABLE IF EXISTS " + mysqlTable;
     final String sqlCreateTable = " CREATE TABLE IF NOT EXISTS " + mysqlTable + " (" +
@@ -237,7 +238,10 @@ public void exportPictures(String Artikul) {
         System.out.println("Export pictures");
         
         st = connection.createStatement();
-        ResultSet result = st.executeQuery("SELECT LGA_ART_ID, GRA_ID, GRA_TAB_NR, GRA_GRD_ID, DOC_EXTENSION, GRA_LNG_ID FROM TOF_LINK_GRA_ART, TOF_GRAPHICS, TOF_DOC_TYPES WHERE DOC_TYPE=GRA_DOC_TYPE AND LGA_GRA_ID=GRA_ID AND LGA_ART_ID=1116267 AND GRA_TAB_NR IS NOT NULL ORDER BY GRA_TAB_NR");
+        String SQl1Temp="SELECT LGA_ART_ID, GRA_ID, GRA_TAB_NR, GRA_GRD_ID, DOC_EXTENSION, GRA_LNG_ID FROM TOF_LINK_GRA_ART, TOF_GRAPHICS, TOF_DOC_TYPES WHERE DOC_TYPE=GRA_DOC_TYPE AND LGA_GRA_ID=GRA_ID AND LGA_ART_ID=";
+        SQl1Temp=SQl1Temp+ArtikulShort+" AND GRA_TAB_NR IS NOT NULL ORDER BY GRA_TAB_NR";
+        //System.out.println(SQl1Temp);
+        ResultSet result = st.executeQuery(SQl1Temp);
 
         
 //        ResultSetMetaData metaResult = result.getMetaData();
@@ -265,7 +269,7 @@ public void exportPictures(String Artikul) {
             ids.add(count, result.getInt(4));
             articles.add(count, result.getInt(1));
             count++;
-            System.out.println(count);
+            //System.out.println(count);
         }
         
         int limit = 1000;
@@ -276,12 +280,12 @@ public void exportPictures(String Artikul) {
         for (int i = 0; i < ids.size(); i++) {
 
             ps.setLong(1, articles.get(i));
-            System.out.println(tableNumber.get(i)+ "/" + ids.get(i) + ".jpg");
+            //System.out.println(tableNumber.get(i)+ "/" + ids.get(i) + ".jpg");
             ps.setString(2, tableNumber.get(i)+ "/" + ids.get(i) + ".jpg");
             ps.addBatch();
             
             if (i % 5000 == 4500) {
-                System.out.println(i);
+                //System.out.println(i);
                 ps.executeBatch();
                 mysqlConnection.commit();
             }
@@ -295,31 +299,26 @@ public void exportPictures(String Artikul) {
             try {
               OutputStream output = null;
               try {
-                File dir = new File(config.pathIMGTecdoc + "\\"+ tableNumber.get(i)+ "\\");
-                if (!dir.exists()) {
-                    dir.mkdir();
-                }
+                 File dir1 = new File(config.pathIMGTecdoc + "\\"+ArtikulFull+ "\\");
+                 if (!dir1.exists()) {
+                      dir1.mkdir();
+                 }
+                                
+                File file = new File(config.pathIMGTecdoc + "\\"+ArtikulFull+ "\\tecd"+ numPic + ".jpx");
+                numPic++;
                 
-                File file = new File(config.pathIMGTecdoc + "\\"+ tableNumber.get(i)+ "\\" + ids.get(i) + ".jpx");
-                
-                System.out.print(i + " " +tableNumber.get(i)+ "-" + ids.get(i));
-                if (file.exists()) {
-                    System.out.println(" - skip");
-                        ;
-                }
-                System.out.println(" - write");
                 
                 Statement st3 = connection.createStatement();
                 String sql1 = "SELECT GRD_GRAPHIC FROM TOF_GRA_DATA_" + tableNumber.get(i) + " WHERE GRD_ID=" + ids.get(i);
-                System.out.println(sql1);
                 ResultSet result2 = st3.executeQuery(sql1);
                 if(result2.next()){
                 byte[] data = result2.getBytes(1);
                 
                 output = new BufferedOutputStream(new FileOutputStream(file));
                 output.write(data);
+                System.out.println(config.pathIMGTecdoc + "\\"+ArtikulFull+ "\\tecd"+ (numPic-1) + ".jpx");
                 output.close();}
-                this.convertImage(config.pathIMGTecdoc + "\\"+ tableNumber.get(i)+ "\\" + ids.get(i) + ".jpx");
+               // this.convertImage(config.pathIMGTecdoc + "\\"+ArtikulFull+ "\\tecd"+ numPic + ".jpx");
               } catch(FileNotFoundException ex){
                   ex.printStackTrace();
               }
@@ -357,7 +356,7 @@ public boolean convertImage(String path) {
         BufferedImage image = null;
         image = ImageIO.read(new File(path));
         File outputFile = new File(path);
-        ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
+        ImageWriter writer = ImageIO.getImageWritersByFormatName("jpx").next();
         ImageWriteParam param = writer.getDefaultWriteParam();
         param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT); // Needed see javadoc
         param.setCompressionQuality(0.9F); // Highest quality

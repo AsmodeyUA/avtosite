@@ -124,7 +124,7 @@ public class category {
 		setDate_added();
 		setDate_modified();
 		setName(name1);
-		setLanguage_id();		
+		setLanguage_id(2);		
 		setDescription(name1);
 		setMeta_description();
 		setMeta_keyword();
@@ -144,7 +144,7 @@ public class category {
 		setDate_added();
 		setDate_modified();
 		setName(name1);	
-		setLanguage_id();
+		setLanguage_id(2);
 		setDescription(name1);
 		setMeta_description();
 		setMeta_keyword();

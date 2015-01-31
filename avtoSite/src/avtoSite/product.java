@@ -26,6 +26,7 @@ public class product {
 	private String description, meta_description, meta_keyword;
 	
 	private String model;
+	public  String artikulShort;
 	public String sku,upc,ean,jan,isbn,mpn,location;
 	private String quantity;
 	private int stock_status_id;	
@@ -203,7 +204,7 @@ public class product {
 		model = name1;
 		setImage();
 		setName(name1);
-		setLanguage_id();		
+		setLanguage_id(2);		
 		setDescription(name1);
 		setMeta_description();
 		setMeta_keyword();
@@ -226,6 +227,7 @@ public class product {
 		viewed=0;
 		tag="";
 		setCategory_id();
+		artikulShort="";
 	}
 	
 
@@ -235,7 +237,7 @@ public class product {
 		model = name1;
 		setImage();
 		setName(name1);
-		setLanguage_id();		
+		setLanguage_id(2);		
 		setDescription(name1);
 		setMeta_description();
 		setMeta_keyword();
@@ -257,7 +259,8 @@ public class product {
 		setStore_id();			
 		viewed=0;	
 		tag="";	
-		setCategory_id();		
+		setCategory_id();
+		artikulShort="";
 	}
 
 	public String getImage() {
