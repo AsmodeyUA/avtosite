@@ -39,7 +39,7 @@ public class JsonRead {
 	 
 			tecdocimport tecd=new tecdocimport();
 			
-			for(int i=0;i<product.getMax_id();i++){
+			for(int i=0;i<1;i++){
 				System.out.println(i);			
 				if(!obj[i].artikulShort.isEmpty()){
 					System.out.println("Start import for "+obj[i].artikulShort);
