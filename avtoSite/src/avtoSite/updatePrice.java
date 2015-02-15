@@ -13,10 +13,27 @@ import javax.naming.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class putinHuylo {
+public class updatePrice {
 
-	public putinHuylo() {
+	public updatePrice() {
 		// TODO Auto-generated constructor stub
+	}
+
+	static int id_product(product[] prod, String name) throws IOException {
+		for (int i = 0; i < product.getMax_id(); i++)
+			if (name.equals(prod[i].getName()))
+				return i;
+		return -1;
+	}
+
+	static boolean equalRel(relatedProd a, relatedProd b) {
+
+		if (a.getProd_id() == b.getProd_id()) {
+			if (a.getRelated_id() == b.getRelated_id()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -32,55 +49,100 @@ public class putinHuylo {
 		int q1 = manufacture.getMax_id();
 		manufact[q1] = new manufacture("Автолюкс");
 
-		int startpos = 9;
 		int manufacturerid = manufact[q1].getId();
 		int parent = categ[q].getId();
-		int colname = 1; // artikul
-		int coldescr = 4;
-		int colprice = 10;
-		int colcount = 14;
 		logger myLog = new logger();
 		myLog.start();
-		sqllogger sqlLog = new sqllogger(config.pathSQLD);
-		sqlLog.start();
-		import_obig1c Data3007 = new import_obig1c(config.pathPrice);
-		if (Data3007.open(myLog)) {
-			product[] prod = new product[20000];
-			prodImage[] prod_Image = new prodImage[100000];
-			relatedProd[] rel_Prod = new relatedProd[100000];
+		sqllogger sqlLogD = new sqllogger(config.pathSQLD);
+		sqllogger sqlLogS = new sqllogger(config.pathSQLS);
+		sqlLogD.start();
+		sqlLogS.start();
 
-			Data3007.ReadRows(prod, manufacturerid, parent, startpos, colname,
-					coldescr, colprice, colcount);
+		product[] prod = new product[20000];
+		prodImage[] prod_Image = new prodImage[100000];
+		relatedProd[] rel_Prod = new relatedProd[100000];
 
-			Data3007.ExportToXLS(prod, config.pathDB);
-			/*
-			 * product.setMax_id(0); product[] prod1 = new product[20000];
-			 * Data3007.ImportFromXLS(prod1,config.pathDB);
-			 * Data3007.ExportToXLS(prod1,config.pathDBold);
-			 */
+		// Json format
+		if (true) {
+			product[] prod1;
+			BufferedReader br = new BufferedReader(new FileReader(
+					config.pathJsonProd));
+
+			// convert the json string back to object
+			Gson gson = new Gson();
+			prod1 = gson.fromJson(br, product[].class);
+			System.out.println(prod1);
+			System.out.println(prod1.length);
+			int z = 0;
+			for (int i = 0; i < prod1.length; i++) {
+				if (prod1[i] != null) {
+					z = i;
+					prod[i] = prod1[i];
+				}
+			}
+			product.setMax_id(z + 1);
+		}
+
+		// Price update
+		import_obig1c Data1002 = new import_obig1c(config.pathPrice1);
+		if (Data1002.open(myLog)) {
+			int startpos = 11;
+			int colname = 3; // artikul
+			int coldescr = 2;
+			int colprice = 7;
+			int colcount = 8;
+			// Data1002.ReadRows(prod, manufacturerid, parent, startpos,
+			// colname,
+			// coldescr, colprice, colcount);
+			Data1002.ExportToXLS(prod, config.pathDB);
+		}
+
+		import_obig1c DataRes = new import_obig1c(config.pathPrice2);
+		if (DataRes.open(myLog)) {
+			int startpos = 1;
+			int colname = 1; // artikul
+			int coldescr = 2;
+			int colprice = 6;
+			int colcount = 4;
+			// DataRes.ReadRows(prod, manufacturerid, parent, startpos, colname,
+			// coldescr, colprice, colcount);
+			DataRes.ExportToXLS(prod, config.pathDB);
+		}
+		System.out.println(product.getMax_id());
+		// Other action
+		if (true) {
+
 			System.out.println("IMAGE!!!");
 
 			for (int i = 0; i < 0; i++)
 			// for (int i=0; i <10; i++)
 			{
 				// System.out.println(prod[i].getName());
-				SiteApi.foundimage(prod[i].getName(), prod[i].getName(), "a");
-				SiteApi.foundimage(prod[i].getDescription(), prod[i].getName(),
+				SiteApi.foundimage(prod[i].getName(), prod[i].nameDir, "a");
+				SiteApi.foundimage(prod[i].getDescription(), prod[i].nameDir,
 						"b");
 				SiteApi.foundimage("артикул " + prod[i].getName(),
-						prod[i].getName(), "c");
+						prod[i].nameDir, "c");
 
 			}
-
+			String temp = "";
 			for (int i = 0; i < product.getMax_id(); i++) {
 				// System.out.println(prod[i].getName());
+				temp = prod[i].getName();
+				temp = temp.replaceAll("\\\\", "_lf");
+				prod[i].nameDir = temp.replaceAll("/", "_rf");
+				temp = prod[i].getDescription();
+				while (temp.indexOf("  ") == 0) {
+					temp = temp.replaceAll("  ", " ");
+				}
+				prod[i].setDescription(temp);
 
 				analogMap.put(prod[i].getName(), prod[i].getId());
 				Boolean NotFoundMainPic = true;
 
 				try {
 					File[] fList;
-					String folder_name = prod[i].getName();
+					String folder_name = prod[i].nameDir;
 					File F = new File(config.pathIMGTecdocJ + '\\'
 							+ folder_name);
 					fList = F.listFiles();
@@ -116,11 +178,14 @@ public class putinHuylo {
 					}
 				} catch (Exception e) {
 					// e.printStackTrace();
+					// System.out.println(config.pathIMGTecdoc + '\\'
+					// +prod[i].nameDir);
+
 				}
 				if (NotFoundMainPic) {
 					try {
 						File[] fList;
-						String folder_name = prod[i].getName();
+						String folder_name = prod[i].nameDir;
 						File F = new File(config.pathIMGJ + '\\' + folder_name);
 						fList = F.listFiles();
 
@@ -139,12 +204,12 @@ public class putinHuylo {
 									prod_Image[prod_Image_id].setSort_order();
 									prod_Image[prod_Image_id]
 											.setProd_id(prod[i].getId());
-									// prod_Image[prod_Image_id].pathFileO = "";
-									// prod_Image[prod_Image_id].pathFileN = "";
-									prod_Image[prod_Image_id].pathFileO = config.pathIMG
-											+ '\\' + folder_name + '\\' + path1;
-									prod_Image[prod_Image_id].pathFileN = config.pathIMGJ
-											+ '\\' + folder_name + '\\' + path1;
+									prod_Image[prod_Image_id].pathFileO = "";
+									prod_Image[prod_Image_id].pathFileN = "";
+									// prod_Image[prod_Image_id].pathFileO=config.pathIMG
+									// + '\\'+folder_name+'\\'+path1;
+									// prod_Image[prod_Image_id].pathFileN=config.pathIMGJ
+									// + '\\'+folder_name+'\\'+path1;
 									// System.out.println(prod_Image[prod_Image_id].toSql1String());
 									if (NotFoundMainPic) {
 										prod[i].setImage(pathTemp);
@@ -180,9 +245,24 @@ public class putinHuylo {
 					keyN2 = analogMap.get(line2);
 					if (keyN1 != null) {
 						if (keyN2 != null) {
-							int rel_Prod_id = relatedProd.getMax_id();
-							rel_Prod[rel_Prod_id] = new relatedProd(keyN1,
-									keyN2);
+							if (keyN1 != keyN2) {
+
+								int rel_Prod_id = relatedProd.getMax_id();
+								rel_Prod[rel_Prod_id] = new relatedProd(keyN1,
+										keyN2);
+
+								for (int j = 0; j < rel_Prod_id; j++) {
+									if (equalRel(rel_Prod[j],
+											rel_Prod[rel_Prod_id]) == true) {
+										// System.out.println(rel_Prod[rel_Prod_id].toSql1String());
+										rel_Prod[rel_Prod_id] = null;
+										relatedProd.setMax_id(relatedProd
+												.getMax_id() - 1);
+										break;
+									}
+								}
+							}
+
 						}
 					}
 
@@ -197,52 +277,69 @@ public class putinHuylo {
 			System.out.println("SQL!!!");
 
 			for (int i = 0; i < category.getMax_id(); i++) {
-				sqlLog.writeln(categ[i].toSqlDel1String());
-				sqlLog.writeln(categ[i].toSqlDel2String());
-				sqlLog.writeln(categ[i].toSqlDel3String());
+				sqlLogD.writeln(categ[i].toSqlDel1String());
+				sqlLogD.writeln(categ[i].toSqlDel2String());
+				sqlLogD.writeln(categ[i].toSqlDel3String());
 			}
 			for (int i = 0; i < manufacture.getMax_id(); i++) {
-				sqlLog.writeln(manufact[i].toSqlDel1String());
-				sqlLog.writeln(manufact[i].toSqlDel2String());
+				sqlLogD.writeln(manufact[i].toSqlDel1String());
+				sqlLogD.writeln(manufact[i].toSqlDel2String());
 			}
 			for (int i = 0; i < product.getMax_id(); i++) {
-				sqlLog.writeln(prod[i].toSqlDel1String());
-				sqlLog.writeln(prod[i].toSqlDel2String());
-				sqlLog.writeln(prod[i].toSqlDel3String());
-				sqlLog.writeln(prod[i].toSqlDel4String());
+				sqlLogD.writeln(prod[i].toSqlDel1String());
+				sqlLogD.writeln(prod[i].toSqlDel2String());
+				sqlLogD.writeln(prod[i].toSqlDel3String());
+				sqlLogD.writeln(prod[i].toSqlDel4String());
 			}
 			for (int i = 0; i < prodImage.getMax_Img_Id(); i++) {
-				sqlLog.writeln(prod_Image[i].toSqlDel1String());
+				sqlLogD.writeln(prod_Image[i].toSqlDel1String());
 			}
 
 			for (int i = 0; i < relatedProd.getMax_id(); i++) {
-				sqlLog.writeln(rel_Prod[i].toSqlDelString());
+				sqlLogD.writeln(rel_Prod[i].toSqlDelString());
 			}
 
 			for (int i = 0; i < category.getMax_id(); i++) {
-				sqlLog.writeln(categ[i].toSql1String());
-				sqlLog.writeln(categ[i].toSql2String());
-				sqlLog.writeln(categ[i].toSql3String());
+				sqlLogS.writeln(categ[i].toSql1String());
+				sqlLogS.writeln(categ[i].toSql2String());
+				sqlLogS.writeln(categ[i].toSql3String());
 			}
 			for (int i = 0; i < manufacture.getMax_id(); i++) {
-				sqlLog.writeln(manufact[i].toSql1String());
-				sqlLog.writeln(manufact[i].toSql2String());
+				sqlLogS.writeln(manufact[i].toSql1String());
+				sqlLogS.writeln(manufact[i].toSql2String());
 			}
 			for (int i = 0; i < product.getMax_id(); i++) {
-				sqlLog.writeln(prod[i].toSql1String());
-				sqlLog.writeln(prod[i].toSql2String());
-				sqlLog.writeln(prod[i].toSql3String());
-				sqlLog.writeln(prod[i].toSql4String());
+				sqlLogS.writeln(prod[i].toSql1String());
+				sqlLogS.writeln(prod[i].toSql2String());
+				sqlLogS.writeln(prod[i].toSql3String());
+				sqlLogS.writeln(prod[i].toSql4String());
 			}
 			for (int i = 0; i < prodImage.getMax_Img_Id(); i++) {
-				sqlLog.writeln(prod_Image[i].toSql1String());
+				sqlLogS.writeln(prod_Image[i].toSql1String());
 			}
 
 			for (int i = 0; i < relatedProd.getMax_id(); i++) {
-				sqlLog.writeln(rel_Prod[i].toSql1String());
+				sqlLogS.writeln(rel_Prod[i].toSql1String());
 			}
 
 			System.out.println("END!!!");
+
+			for (int i = 0; i < product.getMax_id(); i++) {
+				if (i != id_product(prod, prod[i].getName())) {
+					System.out.println("Error : " + prod[i].getName());
+					prod[i].setId(99999);
+				}
+
+			}
+
+			for (int i = 0; i < relatedProd.getMax_id() - 1; i++) {
+				for (int j = i + 1; j < relatedProd.getMax_id(); j++) {
+					if (equalRel(rel_Prod[i], rel_Prod[j]) == true) {
+						System.out.println(rel_Prod[i].toSql1String());
+					}
+				}
+
+			}
 
 			// tecdocimport tecd=new tecdocimport();
 			// tecd.printSysTable();
@@ -270,15 +367,15 @@ public class putinHuylo {
 			System.out.println("END JSON IMAGE WRITE");
 
 			// Product Dump
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String json = gson.toJson(prod);
+			Gson gsonP = new GsonBuilder().setPrettyPrinting().create();
+			String jsonP = gsonP.toJson(prod);
 
 			FileOutputStream outputStream = new FileOutputStream(
 					config.pathJsonProd);
 
 			try {
 
-				outputStream.write(json.getBytes());
+				outputStream.write(jsonP.getBytes());
 				outputStream.close();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -334,7 +431,8 @@ public class putinHuylo {
 			System.out.println("END JSON Related WRITE");
 
 		}
-		sqlLog.stop();
+		sqlLogD.stop();
+		sqlLogS.stop();
 		myLog.stop();
 
 	}

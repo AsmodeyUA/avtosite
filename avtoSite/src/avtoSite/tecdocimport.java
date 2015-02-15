@@ -71,7 +71,7 @@ public class tecdocimport {
 	private void stopmysqlConnection() {
 		try {
 			mysqlConnection.close();
-			System.out.println("Disconnected from mysql database");
+			//System.out.println("Disconnected from mysql database");
 		} catch (Exception e) {
 			System.out.println("NO CONNECTION =(");
 		}
@@ -235,7 +235,7 @@ public class tecdocimport {
 
 		try {
 			startmysqlConnection();
-			System.out.println("Export pictures");
+			//System.out.println("Export pictures");
 
 			st = connection.createStatement();
 			String SQl1Temp = "SELECT LGA_ART_ID, GRA_ID, GRA_TAB_NR, GRA_GRD_ID, DOC_EXTENSION, GRA_LNG_ID FROM TOF_LINK_GRA_ART, TOF_GRAPHICS, TOF_DOC_TYPES WHERE DOC_TYPE=GRA_DOC_TYPE AND LGA_GRA_ID=GRA_ID AND LGA_ART_ID=";
@@ -325,9 +325,9 @@ public class tecdocimport {
 									+ ".jpx");
 							output.close();
 						}
-						this.convertImage(config.pathIMGTecdoc + "\\"
-								+ ArtikulFull + "\\tecd" + (numPic - 1)
-								+ ".jpx");
+						//this.convertImage(config.pathIMGTecdoc + "\\"
+							//	+ ArtikulFull + "\\tecd" + (numPic - 1)
+								//+ ".jpx");
 					} catch (FileNotFoundException ex) {
 						ex.printStackTrace();
 					}
