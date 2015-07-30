@@ -3,6 +3,7 @@ package avtoSite;
 public class config {
 
 	public static String pathPrice = new String("D:\\work\\Dani\\3007_3.xls");
+	public static String pathPrice05032015 = new String("D:\\work\\Dani\\price0503upd.xls");
 	public static String pathPrice1 = new String("D:\\work\\Dani\\price1002.xls");
 	public static String pathPrice2 = new String("D:\\work\\Dani\\priceRes.xls");
 	public static String pathDB = new String("D:\\work\\Dani\\BaseDB.xls");

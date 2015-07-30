@@ -41,6 +41,24 @@ public class import_obig1c {
 				return true;
 		return false;
 	}
+	
+	int getFreeId(product[] prod){
+		int i=1;boolean found;
+		while(i < product.getMax_id()){
+			 found=false;
+			 int j=0;
+			 while(j<product.getMax_id()){
+				if (prod[j].getId()==i){
+					found=true;
+					j=product.getMax_id();
+				}				
+				j++;
+			 }
+			 if (found==false) return i;
+			 i++;	
+		}
+		return (product.getMax_id()+1);
+	}
 
 	int id_product(product[] prod, String name) throws IOException {
 		for (int i = 0; i < product.getMax_id(); i++)
@@ -205,8 +223,10 @@ public class import_obig1c {
 				if (name != "") {
 					int prod_has_id = id_product(prod, name);
 					if (prod_has_id == -1) {
+						int tempFreeID=getFreeId(prod);
+						//int prod_id = product.getMax_id();
 						int prod_id = product.getMax_id();
-						// System.out.println(name);
+						System.out.println("New prod id = "+tempFreeID);
 						prod[prod_id] = new product(name);
 						prod[prod_id].setModel(name);
 						prod[prod_id].setDescription(description);
@@ -214,6 +234,7 @@ public class import_obig1c {
 						prod[prod_id].setPrice(price);
 						prod[prod_id].setManufacturer_id(man_id);
 						prod[prod_id].setCategory_id(parent_cat);
+						prod[prod_id].setId(tempFreeID);
 						myLog.writeln(colRow + " " + name + "  " + description
 								+ " " + price + " " + count);
 						// myLog.writeln(name);

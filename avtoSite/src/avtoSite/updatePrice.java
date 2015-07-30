@@ -76,38 +76,42 @@ public class updatePrice {
 			int z = 0;
 			for (int i = 0; i < prod1.length; i++) {
 				if (prod1[i] != null) {
-					z = i;
+					z=i;
+					//if (prod1[i].getId()>z) z=prod1[i].getId();
 					prod[i] = prod1[i];
+					prod[i].setQuantity("0");
 				}
 			}
-			product.setMax_id(z + 1);
+			product.setMax_id(z+1);
 		}
 
 		// Price update
-		import_obig1c Data1002 = new import_obig1c(config.pathPrice1);
+		import_obig1c Data1002 = new import_obig1c(config.pathPrice05032015);
 		if (Data1002.open(myLog)) {
-			int startpos = 11;
-			int colname = 3; // artikul
-			int coldescr = 2;
-			int colprice = 7;
-			int colcount = 8;
-			// Data1002.ReadRows(prod, manufacturerid, parent, startpos,
-			// colname,
-			// coldescr, colprice, colcount);
-			Data1002.ExportToXLS(prod, config.pathDB);
-		}
-
-		import_obig1c DataRes = new import_obig1c(config.pathPrice2);
-		if (DataRes.open(myLog)) {
-			int startpos = 1;
+			System.out.println("Start Import");
+			System.out.println(product.getMax_id());			
+			int startpos = 3;
 			int colname = 1; // artikul
 			int coldescr = 2;
 			int colprice = 6;
-			int colcount = 4;
+			int colcount = 5;
+   		    Data1002.ReadRows(prod, manufacturerid, parent, startpos, colname, coldescr, colprice, colcount);
+			Data1002.ExportToXLS(prod, config.pathDB);
+			System.out.println(product.getMax_id());
+			System.out.println("END Import");
+		}
+
+		//import_obig1c DataRes = new import_obig1c(config.pathPrice2);
+		//if (DataRes.open(myLog)) {
+		//	int startpos = 1;
+		//	int colname = 1; // artikul
+		//	int coldescr = 2;
+		//	int colprice = 6;
+		//	int colcount = 4;
 			// DataRes.ReadRows(prod, manufacturerid, parent, startpos, colname,
 			// coldescr, colprice, colcount);
-			DataRes.ExportToXLS(prod, config.pathDB);
-		}
+		//	DataRes.ExportToXLS(prod, config.pathDB);
+		//}
 		System.out.println(product.getMax_id());
 		// Other action
 		if (true) {
@@ -128,6 +132,7 @@ public class updatePrice {
 			String temp = "";
 			for (int i = 0; i < product.getMax_id(); i++) {
 				// System.out.println(prod[i].getName());
+				//prod[i].setQuantity("0");
 				temp = prod[i].getName();
 				temp = temp.replaceAll("\\\\", "_lf");
 				prod[i].nameDir = temp.replaceAll("/", "_rf");
