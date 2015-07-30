@@ -1,39 +1,44 @@
 package avtoSite;
 
 public class config {
+	
+	public static String winpath = new String("D:\\work\\Dani\\");
+	public static String linuxpath = new String("/home/asmodey/work/Dani");
 
-	public static String pathPrice = new String("D:\\work\\Dani\\3007_3.xls");
-	public static String pathPrice05032015 = new String("D:\\work\\Dani\\price0503upd.xls");
-	public static String pathPrice1 = new String("D:\\work\\Dani\\price1002.xls");
-	public static String pathPrice2 = new String("D:\\work\\Dani\\priceRes.xls");
-	public static String pathDB = new String("D:\\work\\Dani\\BaseDB.xls");
-	public static String pathDBold = new String("D:\\work\\Dani\\oldBaseDB.xls");
-	public static String pathAnalog = new String("d:\\work\\Dani\\Tovar7.txt");
-	public static String pathSQLD = new String("d:\\work\\Dani\\sqllogD.txt");
-	public static String pathSQLS = new String("d:\\work\\Dani\\sqllogS.txt");
-	public static String pathLOG = new String("d:\\work\\Dani\\log.txt");
-	public static String pathIMG = new String("d:\\work\\Dani\\Image");
-	public static String pathIMGJ = new String("d:\\work\\Dani\\ImageJ");
+	public static String realpath = new String(linuxpath);
+	
+	public static String pathPrice = new String(realpath+"3007_3.xls");
+	public static String pathPrice05032015 = new String("price0503upd.xls");
+	public static String pathPrice1 = new String("price1002.xls");
+	public static String pathPrice2 = new String("priceRes.xls");
+	public static String pathDB = new String("BaseDB.xls");
+	public static String pathDBold = new String(realpath + "oldBaseDB.xls");
+	public static String pathAnalog = new String(realpath + "Tovar7.txt");
+	public static String pathSQLD = new String(realpath + "sqllogD.txt");
+	public static String pathSQLS = new String(realpath + "sqllogS.txt");
+	public static String pathLOG = new String(realpath + "log.txt");
+	public static String pathIMG = new String(realpath + "Image");
+	public static String pathIMGJ = new String(realpath + "ImageJ");
 	public static String pathIMGTecdoc = new String(
-			"d:\\work\\Dani\\TecdocImage");
+			realpath + "TecdocImage");
 	public static String pathIMGTecdocJ = new String(
-			"d:\\work\\Dani\\TecdocImageJ");
+			realpath + "TecdocImageJ");
 	
 	public static String pathJsonProd = new String(
-			"d:\\work\\Dani\\JsonProd.txt");
+			realpath + "JsonProd.txt");
 	public static String pathJsonProd1 = new String(
-			"d:\\work\\Dani\\JsonProd1.txt");
+			realpath + "JsonProd1.txt");
 	public static String pathJsonProdImage = new String(
-			"d:\\work\\Dani\\JsonProdImage.txt");
+			realpath + "JsonProdImage.txt");
 	
 	public static String pathJsonCategory = new String(
-			"d:\\work\\Dani\\JsonCategory.txt");
+			realpath + "JsonCategory.txt");
 	
 	public static String pathJsonManufact = new String(
-			"d:\\work\\Dani\\JsonManufact.txt");
+			realpath + "JsonManufact.txt");
 	
 	public static String pathJsonRelated = new String(
-			"d:\\work\\Dani\\JsonRelated.txt");
+			realpath + "JsonRelated.txt");
 	
 	public config() {
 		// TODO Auto-generated constructor stub
