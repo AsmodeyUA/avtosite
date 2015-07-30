@@ -20,3 +20,49 @@ SELECT ART_ID, ART_ARTICLE_NR, ART_SUP_ID, TEX_TEXT FROM TOF_ARTICLES, TOF_DESIG
 
 
 SELECT LGA_ART_ID, GRA_ID, GRA_TAB_NR, GRA_GRD_ID, DOC_EXTENSION, GRA_LNG_ID FROM TOF_LINK_GRA_ART, TOF_GRAPHICS, TOF_DOC_TYPES WHERE DOC_TYPE=GRA_DOC_TYPE AND LGA_GRA_ID=GRA_ID AND LGA_ART_ID=1116267 AND GRA_TAB_NR IS NOT NULL ORDER BY GRA_TAB_NR
+
+
+
+Field 0: Type=Integer, Title=`GRP_ID', Width=11, Decimals=0
+Field 1: Type=Integer, Title=`ID', Width=11, Decimals=0
+Field 2: Type=String, Title=`ARTIKUL', Width=25, Decimals=0
+Field 3: Type=String, Title=`PROIZV', Width=25, Decimals=0
+Field 4: Type=String, Title=`PROIZVKOD', Width=25, Decimals=0
+Field 5: Type=String, Title=`NAME', Width=100, Decimals=0
+Field 6: Type=Double, Title=`CENA', Width=10, Decimals=2
+Field 7: Type=Double, Title=`KVO', Width=10, Decimals=3
+Field 8: Type=Integer, Title=`ANALOG_ID', Width=11, Decimals=0
+     GRP_ID          ID ARTIKUL                   PROIZV                    PROIZVKOD                 NAME                                                                                                       CENA        KVO   ANALOG_ID 
+          0           1 (NULL)                    (NULL)                    (NULL)                    ПОДШИПНИКИ                                                                                                 0.00      0.000           0 
+          0          54 (NULL)                    (NULL)                    (NULL)                    ДВИГУН                                                                                                     0.00      0.000           0 
+          0          59 (NULL)                    (NULL)                    (NULL)                    ШРУСЫ, ПЫЛЬНИКИ, ХРЕСТОВИНЫ                                                                                0.00      0.000           0 
+          0         957 (NULL)                    (NULL)                    (NULL)                    ЕЛЕКТРИКА, ЗАЖИГАНИЕ, ТОПЛИВНАЯ С-МА                                                                       0.00      0.000           0 
+          0         967 (NULL)                    (NULL)                    (NULL)                    ХОДОВАЯ                                                                                                    0.00      0.000           0 
+          0        1013 (NULL)                    (NULL)                    (NULL)                    СИСТЕМА ОХОЛОДЖЕННЯ                                                                                        0.00      0.000           0 
+          0        1017 (NULL)                    (NULL)                    (NULL)                    СЦЕПЛЕНИЕ                                                                                                  0.00      0.000           0 
+          0        1020 (NULL)                    (NULL)                    (NULL)                    ФИЛЬТРА                                                                                                    0.00      0.000           0 
+          0        1026 (NULL)                    (NULL)                    (NULL)                    КУЗОВ+ОПТИКА                                                                                               0.00      0.000           0 
+          0        1029 (NULL)                    (NULL)                    (NULL)                    ГИДРАВЛИКА ТОРМОЗОВ/СЦЕПЛЕНИЯ                                                                              0.00      0.000           0 
+          0        1047 (NULL)                    (NULL)                    (NULL)                    ТОРМОЗНАЯ СИСТЕМА                                                                                          0.00      0.000           0 
+          0        1097 (NULL)                    (NULL)                    (NULL)                    МАСЛА И ЖИДКОСТИ                                                                                           0.00      0.000           0 
+          0        1107 (NULL)                    (NULL)                    (NULL)                    ВЫХЛОПНАЯ СИСТЕМА                                                                                          0.00      0.000           0 
+          0        2596 (NULL)                    (NULL)                    (NULL)                    ТРОСИКИ                                                                                                    0.00      0.000           0 
+          0        2757 (NULL)                    (NULL)                    (NULL)                    АВТОСТЕКЛО                                                                                                 0.00      0.000           0 
+          0        2880 (NULL)                    (NULL)                    (NULL)                    АВТОХИМИЯ                                                                                                  0.00      0.000           0 
+          0        6188 (NULL)                    (NULL)                    (NULL)                    АКСЕССУАРЫ.......................................................................................          0.00      0.000           0 
+          0        8486 (NULL)                    (NULL)                    (NULL)                    CHEVROLET\DAEWOO                                                                                           0.00      0.000           0 
+          0       19117 (NULL)                    (NULL)                    (NULL)                    КОЛЕСА+ДИСКИ                                                                                               0.00      0.000           0 
+          0      163980 (NULL)                    (NULL)                    (NULL)                    ОСТАЛЬНОЕ ДЛЯ КПП                                                                                          0.00      0.000           0 
+          0      169872 (NULL)                    (NULL)                    (NULL)                    MUSOR                                                                                                      0.00      0.000           0 
+          0      176599 42300191                  (NULL)                    (NULL)                    Компенсатор Короткий FORD TRANSIT 2.4                                                                      0.00      0.000           0 
+          0      176602 535008610                 (NULL)                    (NULL)                    ШКІВ ГЕНЕРАТОРА MERCEDES CLK?C|E|S-CLAS 220CDI-3200CDI02.10                                                0.00      0.000           0 
+          0      176604 03-291                    (NULL)                    (NULL)                    DEXWAL НАТЯЖЫТЕЛЬ РЕМНЯ  DOODGE RAM VAN                                                                    0.00      0.000           0 
+          0      176616 HP720172                  (NULL)                    (NULL)                    ПРОБКА CITROEN SAXO(S0.S1) 1.1 X ,SX;XANTIA (X1) 1.6I,1.8I: XANTIA (X2) 2.0 HDI 90:XANTIA Break          123.68      1.000           0 
+          0      176636 (NULL)                    (NULL)                    (NULL)                    АКСЕСУАРИ_1                                                                                                0.00      0.000           0 
+          0      176733 АЛЯСКА-20(1л)             (NULL)                    (NULL)                    ОЧИСТИТЕЛЬ ЛОБОВОГО СКЛА                                                                                   0.00      0.000           0 
+          0      176780 551-2004L-UE              (NULL)                    (NULL)                    ПРОТИВОТУМАНКА L RENAULT MEGANE\SCENIC 99-                                                                 0.00      0.000           0 
+          0      176781 551-2004R-UE              (NULL)                    (NULL)                    ПРОТИВОТУМАНКА R RENAULT MEGANE\SCENIC 99-                                                                 0.00      0.000           0 
+          0      176783 RS3499516BP               (NULL)                    (NULL)                    ДАТЧИК ТЕМПЕРАТУРЫ ВОДЫ MAN                                                                                0.00      0.000           0 
+          0      176795 CQ2010120                 (NULL)                    (NULL)                    БЕНДИКС СТАРТЕРА PARIS-RHONE 584185 D7R5/8/9/12-26                                                       202.92      1.000       82865 
+          0      176795 CQ2010120                 (NULL)                    (NULL)                    БЕНДИКС СТАРТЕРА PARIS-RHONE 584185 D7R5/8/9/12-26                                                       202.92      1.000       84542 
+          0      176795 CQ2010120                 (NULL)                    (NULL)                    БЕНДИКС СТАРТЕРА PARIS-RHONE 584185 D7R5/8/9/12-26                                                       202.92      1.000       29819 
