@@ -3,7 +3,7 @@ package avtoSite;
 public class config {
 	
 	public static String winpath = new String("D:\\work\\Dani\\");
-	public static String linuxpath = new String("/home/asmodey/work/Dani");
+	public static String linuxpath = new String("/home/asmodey/work/Dani/");
 
 	public static String realpath = new String(linuxpath);
 	
