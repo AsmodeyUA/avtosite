@@ -57,7 +57,7 @@ public class TestGoogleSea {
 	public static void main(String[] args) throws IOException {
  
 		foundimage("11.8116-0191.1");
-		foundimage("DAEWOO LANOS 1,4 SOHC œ–Œ¬Œƒ¿ «¿∆»√¿Õ»ﬂ");
+		foundimage("DAEWOO LANOS 1,4 SOHC –ü–†–û–í–û–î–ê –ó–ê–ñ–ò–ì–ê–ù–ò–Ø");
 		
 	}
 }

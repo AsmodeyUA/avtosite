@@ -40,6 +40,16 @@ public class config {
 	public static String pathJsonRelated = new String(
 			realpath + "JsonRelated.txt");
 	
+	public static String pathDBF = new String(
+			realpath + "tovar.DBF");
+	
+	public static String pathDBF1 = new String(
+			realpath + "tovar1111.DBF");
+
+	public static String pathTXT = new String(
+			realpath + "tovar.txt");
+	
+	
 	public config() {
 		// TODO Auto-generated constructor stub
 	}

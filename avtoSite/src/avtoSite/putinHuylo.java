@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.naming.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,13 +22,13 @@ public class putinHuylo {
 		System.out.println("Putin Huylo!!!");
 		category[] categ = new category[1000];
 		int q = category.getMax_id();
-		categ[q] = new category("��������");
+		categ[q] = new category("РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…");
 
 		Map<String, Integer> analogMap = new HashMap<String, Integer>();
 
 		manufacture[] manufact = new manufacture[1000];
 		int q1 = manufacture.getMax_id();
-		manufact[q1] = new manufacture("��������");
+		manufact[q1] = new manufacture("РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…");
 
 		int startpos = 9;
 		int manufacturerid = manufact[q1].getId();
@@ -67,7 +65,7 @@ public class putinHuylo {
 				SiteApi.foundimage(prod[i].getName(), prod[i].getName(), "a");
 				SiteApi.foundimage(prod[i].getDescription(), prod[i].getName(),
 						"b");
-				SiteApi.foundimage("������� " + prod[i].getName(),
+				SiteApi.foundimage("РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р…РїС—Р… " + prod[i].getName(),
 						prod[i].getName(), "c");
 
 			}
