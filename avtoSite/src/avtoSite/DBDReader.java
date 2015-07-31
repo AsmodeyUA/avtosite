@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,13 +29,19 @@ public class DBDReader {
 	static Set<String> stringSetOLD = new HashSet<String>();
 	private static product[] prod = new product[20000];
 
-	public static void main(String[] args) throws UnsupportedEncodingException,
-			FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		readDBF(config.pathDBF);
 
 	}
 
-	public static int readDBF(String FilenameDBF) throws FileNotFoundException {
+	static boolean is_product(product[] prod, String name) throws IOException {
+		for (int i = 0; i < product.getMax_id(); i++)
+			if (name.equals(prod[i].getName()))
+				return true;
+		return false;
+	}
+	
+	public static int readDBF(String FilenameDBF) throws IOException {
 		int result = 0;
 		int z = 0;
 		int q = 0;
@@ -125,11 +131,19 @@ public class DBDReader {
 			// for(String valuestr:stringSetOLD){
 			// System.out.println(valuestr);
 			// }
-
+			int n=0;int qn=0;
 			System.out.println("END");
-			// for (int i=0; i<SizeDBT;i++){
-			// if (IDC1Base[i]!=null) System.out.println(NAMEBase[i]);
-			// }
+			for (int i=0; i<SizeDBT;i++){
+				if (IDC1Base[i]!=null) {
+					qn=qn+1;
+					if (!is_product(prod,ARTIKULC1Base[i])){
+						System.out.println(ARTIKULC1Base[i]+" "+NAMEBase[i]);	
+						n=n+1;
+					};
+				}
+			}
+			System.out.println(qn);
+			System.out.println(n);
 		} catch (DBFException ex) {
 			System.out.println("Database Exception");
 			result = 2;
