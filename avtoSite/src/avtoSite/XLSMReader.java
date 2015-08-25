@@ -1,19 +1,27 @@
 package avtoSite;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.gson.Gson;
 import com.linuxense.javadbf.DBFException;
 import com.linuxense.javadbf.DBFReader;
 
-public class DBDReader {
+public class XLSMReader {
 
 	public static int SizeDBT = 200000;
 	public static int SizeAnalog = 60000;
@@ -30,7 +38,7 @@ public class DBDReader {
 	private static product[] prod = new product[20000];
 
 	public static void main(String[] args) throws IOException {
-		readDBF(config.pathDBF);
+		readDBF(config.pathXLSX);
 
 	}
 
@@ -41,14 +49,7 @@ public class DBDReader {
 		return false;
 	}
 	
-	static boolean is_productDescr(product[] prod, String name) throws IOException {
-		for (int i = 0; i < product.getMax_id(); i++)
-			if (name.equals(prod[i].getDescription()))
-				return true;
-		return false;
-	}
-	
-	public static int readDBF(String FilenameDBF) throws IOException {
+	public static int readDBF(String FilenameXLS) throws IOException {
 		int result = 0;
 		int z = 0;
 		int q = 0;
@@ -79,42 +80,23 @@ public class DBDReader {
 		System.out.println(product.getMax_id());
 		try {
 
-			InputStream f = new FileInputStream(FilenameDBF);
 
-			DBFReader file = new DBFReader(f);
-			// PrintStream ps = new PrintStream(System.out, true,
-			// "Windows-1251");
-			Object[] rowObject;
-			file.setCharactersetName("CP1251");
+            // Finds the workbook instance for XLSX file
+            @SuppressWarnings("deprecation")
+			XSSFWorkbook myWorkBook = new XSSFWorkbook (FilenameXLS);
+           
+            // Return first sheet from the XLSX workbook
+            XSSFSheet mySheet = myWorkBook.getSheetAt(0);
 
-			Integer tempIDC1Base = 0;
+
+		    Integer tempIDC1Base = 0;
 			Integer tempAnalogBase = 0;
-			while ((rowObject = file.nextRecord()) != null) {
-				if (Float.parseFloat(rowObject[6].toString()) > 0) {
-					tempIDC1Base = (int) (Float.parseFloat(rowObject[1]
-							.toString()));
-					tempAnalogBase = (int) (Float.parseFloat(rowObject[8]
-							.toString()));
-					IDC1Base[tempIDC1Base] = (tempIDC1Base.toString());
-					ARTIKULC1Base[tempIDC1Base] = rowObject[2].toString();
-					NAMEBase[tempIDC1Base] = rowObject[5].toString();
-					CENAC1Base[tempIDC1Base] = rowObject[6].toString();
-					KVOBase[tempIDC1Base] = rowObject[7].toString();
-					ANALOG_IDC1Base[tempIDC1Base] = tempAnalogBase.toString();
-					//System.out.println(NAMEBase[tempIDC1Base]);
-					if (tempAnalogBase > 0) {
-						q = q + 1;
-						String tempSTR = IDC1Base[tempIDC1Base] + ";"
-								+ ANALOG_IDC1Base[tempIDC1Base];
-						String tempSTRold = ANALOG_IDC1Base[tempIDC1Base] + ";"
-								+ IDC1Base[tempIDC1Base];
-						if (!stringSet.contains(tempSTRold))
-							stringSet.add(tempSTR);
 
-						AnalogBase[q] = tempSTR;
-						// System.out.println(IDC1Base[tempIDC1Base]+";"+ANALOG_IDC1Base[tempIDC1Base]);
-					}
-				}
+		    Iterator <Row> rowIterator = mySheet.iterator();
+		    while(rowIterator.hasNext()) {
+		        Row row = rowIterator.next();
+		        System.out.println("s");
+
 
 				z = z + 1;
 
@@ -143,13 +125,12 @@ public class DBDReader {
 			for (int i=0; i<SizeDBT;i++){
 				if (IDC1Base[i]!=null) {
 					qn=qn+1;
-					if (is_product(prod,ARTIKULC1Base[i])){
-						System.out.println(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]);	
+					if (!is_product(prod,ARTIKULC1Base[i])){
+						System.out.println(ARTIKULC1Base[i]+" "+NAMEBase[i]);	
 						n=n+1;
 					};
 				}
 			}
-			System.out.println(z);
 			System.out.println(qn);
 			System.out.println(n);
 		} catch (DBFException ex) {
@@ -160,7 +141,7 @@ public class DBDReader {
 			result = 1;
 		} finally {
 		}
-		// System.out.println(z+" - "+q);
+		 System.out.println(z+" - "+q);
 		// System.out.println(stringSet.size());
 		// System.out.println(stringSetNew.size());
 

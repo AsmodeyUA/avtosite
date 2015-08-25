@@ -43,6 +43,9 @@ public class config {
 	public static String pathDBF = new String(
 			realpath + "tovar.DBF");
 	
+	public static String pathXLSX = new String(
+			realpath + "tovar2108.xlsx");
+	
 	public static String pathDBF1 = new String(
 			realpath + "tovar1111.DBF");
 

@@ -2,19 +2,19 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-examples-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-excelant-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-ooxml-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-ooxml-schemas-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/poi-3.9/poi-scratchpad-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/google-gson-2.2.4/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/tbjdbc.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/mysql-connector-java-5.1.20-bin.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/jj2000-5.1/jj2000-5.1.jar" sourcepath="D:/work/jdbc driver/jj2000_5.1-src.zip"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/JNRTD/jmrtd-0.5.0.jar"/>
-	<classpathentry kind="lib" path="D:/work/jdbc driver/JNRTD/jmrtd-0.5.0-sources.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/poi-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/poi-examples-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/poi-excelant-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/poi-ooxml-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/poi-ooxml-schemas-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/poi-scratchpad-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/google-gson-2.2.4/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/javadbf-0.4.0/javadbf.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/ooxml-lib/xmlbeans-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/ooxml-lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/home/asmodey/work/jdbc/poi-3.9/ooxml-lib/stax-api-1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
