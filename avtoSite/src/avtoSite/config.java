@@ -16,6 +16,7 @@ public class config {
 	public static String pathAnalog = new String(realpath + "Tovar7.txt");
 	public static String pathSQLD = new String(realpath + "sqllogD.txt");
 	public static String pathSQLS = new String(realpath + "sqllogS.txt");
+	public static String pathSQLX = new String(realpath + "sqllogX.txt");
 	public static String pathLOG = new String(realpath + "log.txt");
 	public static String pathIMG = new String(realpath + "Image");
 	public static String pathIMGJ = new String(realpath + "ImageJ");

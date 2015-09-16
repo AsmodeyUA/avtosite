@@ -171,6 +171,14 @@ public class product {
 		sql += ");";
 		return sql;
 	}
+	
+	public String toSqlUpdatePriceQuantity() {
+		String sql = "UPDATE `oc_product` SET `price` ='";
+		sql += price + "' , `quantity` ='"+ quantity +"' WHERE `product_id` =";
+		sql += id;
+		sql += ";";
+		return sql;
+	}
 
 	public String toSqlDel1String() {
 		String sql = "";
@@ -414,6 +422,14 @@ public class product {
 	public void setStore_id(int store) {
 		this.store_id = store;
 	}
+	
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String Tag) {
+		this.tag = Tag;
+	}
 
 	public void setStore_id() {
 		this.store_id = 0;
@@ -487,6 +503,10 @@ public class product {
 
 	public void setCategory_id() {
 		this.category_id = 0;
+	}
+
+	public void setPrice(double priceD) {
+		this.price = Double.toString(priceD); 
 	}
 
 }

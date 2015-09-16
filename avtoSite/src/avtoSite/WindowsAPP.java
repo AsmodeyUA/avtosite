@@ -2,12 +2,13 @@ package avtoSite;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class WindowsAPP {
 
    private Frame mainFrame;
    private Label headerLabel;
-   private Label statusLabel;
+
    private Panel controlPanel;
    private Panel controlPanelText;
    private Panel controlPanelStart;
@@ -34,15 +35,12 @@ public class WindowsAPP {
       });    
       headerLabel = new Label();
       headerLabel.setAlignment(Label.CENTER);
-      statusLabel = new Label();        
-      statusLabel.setAlignment(Label.CENTER);
-      statusLabel.setSize(350,100);
 
       controlPanel = new Panel();
-      controlPanel.setLayout(new FlowLayout());
+      controlPanel.setLayout(new GridLayout(4,4));
 
       controlPanelText = new Panel();
-      controlPanelText.setLayout(new GridLayout(3,3));
+      controlPanelText.setLayout(new GridLayout(4,4));
 
       controlPanelStart = new Panel();
       controlPanelStart.setLayout(new FlowLayout());
@@ -56,7 +54,10 @@ public class WindowsAPP {
    }
 
    private void showButtonDemo(){
-      headerLabel.setText("Вводите націнку, вираховуєте коеф, вводите файлик і натискаєте старт:"); 
+      headerLabel.setText("Вводите націнку, вираховуєте коеф, вводите файлик і натискаєте старт:");
+      final Label statusLabel = new Label();        
+      statusLabel.setAlignment(Label.CENTER);
+      statusLabel.setSize(250,100);
 	  statusLabel.setText("______");
       Button okButton = new Button("Load File");
       Button submitButton = new Button("Calculate K");
@@ -67,7 +68,7 @@ public class WindowsAPP {
       Label koefLabel = new Label(); 
       koefLabel.setText("Koef:");
       koefLabel.setAlignment(Label.RIGHT);
-      final TextField textfieldCurs=new TextField("25.4",10);
+      final TextField textfieldCurs=new TextField("21.4",10);
       final TextField textfieldKoef=new TextField("1.3",10);
       final Label koefLabel1 = new Label();
       koefLabel1.setAlignment(Label.LEFT);
@@ -99,7 +100,6 @@ public class WindowsAPP {
       submitButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
         	String textS = textfieldKoef.getText()+"/"+textfieldCurs.getText();;
-            statusLabel.setText(textS);
             float tempcurs = Float.parseFloat(textfieldCurs.getText());
             float tempkoef = Float.parseFloat(textfieldKoef.getText());
             koefToCalc = tempkoef/tempcurs;
@@ -109,7 +109,23 @@ public class WindowsAPP {
 
       cancelButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            statusLabel.setText("Cancel Button clicked.");
+            if (filenametoopen.equals("")){
+            	statusLabel.setText("FILE NOT FOUND!!!!!.");
+            } else {
+            	statusLabel.setText("Start");
+            	String textS = textfieldKoef.getText()+"/"+textfieldCurs.getText();;
+                float tempcurs = Float.parseFloat(textfieldCurs.getText());
+                float tempkoef = Float.parseFloat(textfieldKoef.getText());
+                koefToCalc = tempkoef/tempcurs;
+                koefLabel1.setText(textS+" = "+Float.toString(koefToCalc));
+                try {
+					DBDReader.readDBF(filenametoopen, koefToCalc,config.pathJsonProd,config.pathJsonProd1, statusLabel);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+            
          }
       });
       
@@ -121,7 +137,8 @@ public class WindowsAPP {
       controlPanelText.add(textfieldKoef);
       controlPanelText.add(submitButton);
       controlPanelText.add(koefLabel1);
-      controlPanelStart.add(cancelButton);       
+      controlPanelStart.add(cancelButton);
+      controlPanel.add(statusLabel);
       mainFrame.setVisible(true);  
    }
 }
