@@ -1,25 +1,23 @@
 package avtoSite;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.gson.Gson;
 import com.linuxense.javadbf.DBFException;
-import com.linuxense.javadbf.DBFReader;
+
 
 public class XLSMReader {
 
@@ -28,10 +26,7 @@ public class XLSMReader {
 	private static String[] IDC1Base = new String[SizeDBT];
 	private static String[] NAMEBase = new String[SizeDBT];
 	private static String[] ARTIKULC1Base = new String[SizeDBT];
-	private static String[] CENAC1Base = new String[SizeDBT];
-	private static String[] KVOBase = new String[SizeDBT];
-	private static String[] ANALOG_IDC1Base = new String[SizeDBT];
-	private static String[] AnalogBase = new String[SizeAnalog];
+
 	static Set<String> stringSet = new HashSet<String>();
 	static Set<String> stringSetNew = new HashSet<String>();
 	static Set<String> stringSetOLD = new HashSet<String>();
@@ -89,12 +84,11 @@ public class XLSMReader {
             XSSFSheet mySheet = myWorkBook.getSheetAt(0);
 
 
-		    Integer tempIDC1Base = 0;
-			Integer tempAnalogBase = 0;
+
 
 		    Iterator <Row> rowIterator = mySheet.iterator();
 		    while(rowIterator.hasNext()) {
-		        Row row = rowIterator.next();
+
 		        System.out.println("s");
 
 
