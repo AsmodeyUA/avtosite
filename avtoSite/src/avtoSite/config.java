@@ -5,7 +5,8 @@ public class config {
 	public static String winpath = new String("D:\\work\\Dani\\");
 	public static String linuxpath = new String("/home/asmodey/work/Dani/");
 
-	public static String realpath = new String(linuxpath);
+	//public static String realpath = new String("");
+	public static String realpath = new String();
 	
 	public static String pathPrice = new String(realpath+"3007_3.xls");
 	public static String pathPrice05032015 = new String("price0503upd.xls");

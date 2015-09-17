@@ -38,7 +38,24 @@ public class DBDReader {
 		readDBF(config.pathDBF, 0.001,config.pathJsonProd,config.pathJsonProd1,null);
 
 	}
-
+	
+	static int getFreeId(product[] prod){
+		int i=1;boolean found;
+		while(i < product.getMax_id()){
+			 found=false;
+			 int j=0;
+			 while(j<product.getMax_id()){
+				if (prod[j].getId()==i){
+					found=true;
+					j=product.getMax_id();
+				}				
+				j++;
+			 }
+			 if (found==false) return i;
+			 i++;	
+		}
+		return (product.getMax_id()+1);
+	}
 	static int is_product(product[] prod, String name) throws IOException {
 		String nameCompare = name.replaceAll(" ", "");
 		int rez = 999999;
@@ -119,6 +136,7 @@ public class DBDReader {
 					// if (prod1[i].getId()>zq) zq=prod1[i].getId();
 					prod[i] = prod1[i];
 					prod[i].setQuantity("0");
+					prod[i].setTag("");
 				}
 			}
 			product.setMax_id(zq + 1);
@@ -152,7 +170,10 @@ public class DBDReader {
 					IDC1Base[tempIDC1Base] = (tempIDC1Base.toString());
 					ARTIKULC1Base[tempIDC1Base] = rowObject[2].toString();
 					ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replaceAll(" ", "");
+					ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replaceAll("'", "");
+					//ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replaceAll("\\", "");
 					NAMEBase[tempIDC1Base] = rowObject[5].toString();
+					NAMEBase[tempIDC1Base]  = NAMEBase[tempIDC1Base].replaceAll("'", "");
 					CENAC1Base[tempIDC1Base] = rowObject[6].toString();
 					KVOBase[tempIDC1Base] = rowObject[7].toString();
 					ANALOG_IDC1Base[tempIDC1Base] = tempAnalogBase.toString();
@@ -215,9 +236,28 @@ public class DBDReader {
 					}
 					else {
 						if (!prod[num1].getTag().equals("")){
-							sqlLogX.writeln(num1);
-							sqlLogX.writeln(prod[num1].getTag());
-							sqlLogX.writeln(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]+CENAC1Base[i]);
+							//sqlLogX.writeln(num1);
+							//sqlLogX.writeln(prod[num1].getTag());
+							//sqlLogX.writeln(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]+CENAC1Base[i]);
+							int prod_id = product.getMax_id();
+							int tempFreeID=getFreeId(prod);
+							System.out.println("New prod id = "+tempFreeID);
+							prod[prod_id] = new product(ARTIKULC1Base[i]);
+							prod[prod_id].setModel(ARTIKULC1Base[i]);
+							prod[prod_id].setDescription(NAMEBase[i]);
+							prod[prod_id].setQuantity(KVOBase[i]);
+							prod[prod_id].setPrice(Double.parseDouble(CENAC1Base[i])*koef);
+							prod[prod_id].setManufacturer_id(1);
+							prod[prod_id].setCategory_id(1);
+							prod[prod_id].setId(tempFreeID);
+							sqlLogX.writeln(prod[prod_id].toSqlDel1String());
+							sqlLogX.writeln(prod[prod_id].toSqlDel2String());
+							sqlLogX.writeln(prod[prod_id].toSqlDel3String());
+							sqlLogX.writeln(prod[prod_id].toSqlDel4String());
+							sqlLogX.writeln(prod[prod_id].toSql1String());
+							sqlLogX.writeln(prod[prod_id].toSql2String());
+							sqlLogX.writeln(prod[prod_id].toSql3String());
+							sqlLogX.writeln(prod[prod_id].toSql4String());
 						}else{
 						//System.out.println(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]+CENAC1Base[i]);
 						prod[num1].setTag(ARTIKULC1Base[i]+" i = "+i);
