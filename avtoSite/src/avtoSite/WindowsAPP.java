@@ -119,6 +119,7 @@ public class WindowsAPP {
                 koefToCalc = tempkoef/tempcurs;
                 koefLabel1.setText(textS+" = "+Float.toString(koefToCalc));
                 try {
+        			System.out.println(config.pathJsonProd);
 					DBDReader.readDBF(filenametoopen, koefToCalc,config.pathJsonProd,config.pathJsonProd1, statusLabel);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

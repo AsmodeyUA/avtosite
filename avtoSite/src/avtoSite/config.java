@@ -6,7 +6,7 @@ public class config {
 	public static String linuxpath = new String("/home/asmodey/work/Dani/");
 
 	//public static String realpath = new String("");
-	public static String realpath = new String();
+	public static String realpath = new String(linuxpath);
 	
 	public static String pathPrice = new String(realpath+"3007_3.xls");
 	public static String pathPrice05032015 = new String("price0503upd.xls");
@@ -15,9 +15,9 @@ public class config {
 	public static String pathDB = new String("BaseDB.xls");
 	public static String pathDBold = new String(realpath + "oldBaseDB.xls");
 	public static String pathAnalog = new String(realpath + "Tovar7.txt");
-	public static String pathSQLD = new String(realpath + "sqllogD.txt");
-	public static String pathSQLS = new String(realpath + "sqllogS.txt");
-	public static String pathSQLX = new String(realpath + "sqllogX.txt");
+	public static String pathSQLD = new String(realpath + "Update1.txt");
+	public static String pathSQLS = new String(realpath + "Update2.txt");
+	public static String pathSQLX = new String(realpath + "NewPosCheck.txt");
 	public static String pathLOG = new String(realpath + "log.txt");
 	public static String pathIMG = new String(realpath + "Image");
 	public static String pathIMGJ = new String(realpath + "ImageJ");
