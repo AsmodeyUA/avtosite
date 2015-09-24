@@ -19,7 +19,7 @@ import com.linuxense.javadbf.DBFReader;
 public class DBDReader {
 
 	public static int SizeDBT = 200000;
-	public static int SizeAnalog = 600000;
+	public static int SizeAnalog = 700000;
 	private static String[] IDC1Base = new String[SizeDBT];
 	private static String[] NAMEBase = new String[SizeDBT];
 	private static String[] ARTIKULC1Base = new String[SizeDBT];
@@ -34,7 +34,7 @@ public class DBDReader {
 	static Set<String> stringSet = new HashSet<String>();
 	static Set<String> stringSetNew = new HashSet<String>();
 	static Set<String> stringSetOLD = new HashSet<String>();
-	private static product[] prod = new product[20000];
+	private static product[] prod = new product[SizeDBT];
 
 	public static void main(String[] args) throws IOException {
 		//System.out.println(config.pathJsonProd);
@@ -66,6 +66,17 @@ public class DBDReader {
 			if (nameCompare.equals(prod[i].getName()))
 				return i;
 			if (nameCompare.equals(prod[i].getName().replaceAll(" ", "")))
+				return i;
+		}
+		return rez;
+	}
+	
+
+	static int is_product_c1base(product[] prod, String name) throws IOException {
+		String nameCompare = name.replaceAll(" ", "");
+		int rez = 999999;
+		for (int i = 0; i < product.getMax_id(); i++){
+			if (nameCompare.equals(prod[i].getTag()))
 				return i;
 		}
 		return rez;
@@ -120,8 +131,9 @@ public class DBDReader {
 		sqlLogD.start();
 		sqlLogS.start();
 		sqlLogX.start();
-		product[] prod1 ;//=new product[20000];
-		relatedProd[] rel_Prod = new relatedProd[100000];	
+		product[] prod1;// =new product[SizeAnalog];
+		product.setMax_id(0);
+		relatedProd[] rel_Prod = new relatedProd[SizeAnalog];	
 		boolean needs;
 		for(int i = 0; i <SizeDBT; i++){
 			HasAnalogNotZero[i]=false;
@@ -145,7 +157,7 @@ public class DBDReader {
 					// if (prod1[i].getId()>zq) zq=prod1[i].getId();
 					prod[i] = prod1[i];
 					prod[i].setQuantity("0");
-					prod[i].setTag("");
+					//prod[i].setTag("");
 				}
 			}
 			product.setMax_id(zq + 1);
@@ -189,7 +201,10 @@ public class DBDReader {
 						needs=false;
 					}
 				}
-				System.out.println(needs);
+				
+
+				
+				//System.out.println(needs);
 				if (needs) {
 					tempIDC1Base = (int) (Float.parseFloat(rowObject[1]
 							.toString()));
@@ -197,10 +212,14 @@ public class DBDReader {
 					ARTIKULC1Base[tempIDC1Base] = rowObject[2].toString();
 					ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replaceAll(" ", "");
 					ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replaceAll("'", "");
+					ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replace('\\', 'X');
+					ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replace('"', 'X');
 					CENAC1BaseFloat[tempIDC1Base] = tempCenaBase;
 					//ARTIKULC1Base[tempIDC1Base] = ARTIKULC1Base[tempIDC1Base].replaceAll("\\", "");
 					NAMEBase[tempIDC1Base] = rowObject[5].toString();
 					NAMEBase[tempIDC1Base]  = NAMEBase[tempIDC1Base].replaceAll("'", "");
+					NAMEBase[tempIDC1Base]  = NAMEBase[tempIDC1Base].replace('\\', 'X');
+					NAMEBase[tempIDC1Base]  = NAMEBase[tempIDC1Base].replace('"', 'X');
 					CENAC1Base[tempIDC1Base] = rowObject[6].toString();
 					KVOBase[tempIDC1Base] = rowObject[7].toString();
 					ANALOG_IDC1Base[tempIDC1Base] = tempAnalogBase.toString();
@@ -267,20 +286,17 @@ public class DBDReader {
 				if (needs) {
 					qn=qn+1;
 					//System.out.println(""+i+ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]);
-					
-					int num1 = is_product(prod,ARTIKULC1Base[i]);
-					if (num1 == 999999){
-						num1 = is_productDescr(prod,NAMEBase[i]);
-						if (num1 == 999999){
-							num1 = is_product00(prod,ARTIKULC1Base[i]);
-						}						
-					}
+					String CompSTrI = Integer.toString(i);
+					System.out.println(CompSTrI);
+					int num1 = is_product_c1base(prod,CompSTrI);
+					//int num1 = 999999;
+					System.out.println(i);
 					if (num1 == 999999){
 						n=n+1;
 						//sqlLogX.writeln(ARTIKULC1Base[i]+" "+NAMEBase[i]+" " +KVOBase[i]+" "+CENAC1Base[i]);
 						int prod_id = product.getMax_id();
 						int tempFreeID=getFreeId(prod);
-						System.out.println("New prod id = "+tempFreeID+" i="+i);
+						//int tempFreeID=prod_id+1;
 						prod[prod_id] = new product(ARTIKULC1Base[i]);
 						prod[prod_id].setModel(ARTIKULC1Base[i]);
 						prod[prod_id].setDescription(NAMEBase[i]);
@@ -289,6 +305,7 @@ public class DBDReader {
 						prod[prod_id].setManufacturer_id(1);
 						prod[prod_id].setCategory_id(1);
 						prod[prod_id].setId(tempFreeID);
+						prod[prod_id].setTag(CompSTrI);
 						sqlLogX.writeln(prod[prod_id].toSqlDel1String());
 						sqlLogX.writeln(prod[prod_id].toSqlDel2String());
 						sqlLogX.writeln(prod[prod_id].toSqlDel3String());
@@ -297,42 +314,15 @@ public class DBDReader {
 						sqlLogX.writeln(prod[prod_id].toSql2String());
 						sqlLogX.writeln(prod[prod_id].toSql3String());
 						sqlLogX.writeln(prod[prod_id].toSql4String());
-						prod[prod_id].setTag(ARTIKULC1Base[i]+" i = "+i);
+						ProductIDJSON[i] = num1+1;
 					}
 					else {
-						if (!prod[num1].getTag().equals("")){
-							//sqlLogX.writeln(num1);
-							//sqlLogX.writeln(prod[num1].getTag());
-							//sqlLogX.writeln(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]+CENAC1Base[i]);
-							int prod_id = product.getMax_id();
-							int tempFreeID=getFreeId(prod);
-							System.out.println("New prod id = "+tempFreeID+" i="+i);
-							prod[prod_id] = new product(ARTIKULC1Base[i]);
-							prod[prod_id].setModel(ARTIKULC1Base[i]);
-							prod[prod_id].setDescription(NAMEBase[i]);
-							prod[prod_id].setQuantity(KVOBase[i]);
-							prod[prod_id].setPrice(Double.parseDouble(CENAC1Base[i])*koef);
-							prod[prod_id].setManufacturer_id(1);
-							prod[prod_id].setCategory_id(1);
-							prod[prod_id].setId(tempFreeID);
-							sqlLogX.writeln(prod[prod_id].toSqlDel1String());
-							sqlLogX.writeln(prod[prod_id].toSqlDel2String());
-							sqlLogX.writeln(prod[prod_id].toSqlDel3String());
-							sqlLogX.writeln(prod[prod_id].toSqlDel4String());
-							sqlLogX.writeln(prod[prod_id].toSql1String());
-							sqlLogX.writeln(prod[prod_id].toSql2String());
-							sqlLogX.writeln(prod[prod_id].toSql3String());
-							sqlLogX.writeln(prod[prod_id].toSql4String());
-							prod[prod_id].setTag(ARTIKULC1Base[i]+" i = "+i);
-						}else{
 						//System.out.println(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]+CENAC1Base[i]);
-						prod[num1].setTag(ARTIKULC1Base[i]+" i = "+i);
+						prod[num1].setTag(CompSTrI);
 						ProductIDJSON[i] = num1+1;
 						prod[num1].setQuantity(KVOBase[i]);
 						prod[num1].setPrice(Double.parseDouble(CENAC1Base[i])*koef);}
-						//sqlLogX.writeln(num1);
-					};
-				
+						//sqlLogX.writeln(num1);			
 				}
 			}
 			if (newL!=null){
@@ -376,6 +366,7 @@ public class DBDReader {
 			}
 			for (int i = 0; i < product.getMax_id(); i++){
 				sqlLogS.writeln(prod[i].toSqlUpdatePriceQuantity());
+
 				}
 			sqlLogD.writeln("TRUNCATE `oc_product_related`;");
 			for (int i = 0; i < relatedProd.getMax_id(); i++){
