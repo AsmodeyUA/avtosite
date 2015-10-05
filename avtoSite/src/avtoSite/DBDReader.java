@@ -314,7 +314,7 @@ public class DBDReader {
 						sqlLogX.writeln(prod[prod_id].toSql2String());
 						sqlLogX.writeln(prod[prod_id].toSql3String());
 						sqlLogX.writeln(prod[prod_id].toSql4String());
-						ProductIDJSON[i] = num1+1;
+						ProductIDJSON[i] = tempFreeID;
 					}
 					else {
 						//System.out.println(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]+CENAC1Base[i]);
