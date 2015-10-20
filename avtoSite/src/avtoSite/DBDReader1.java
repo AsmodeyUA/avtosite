@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.linuxense.javadbf.DBFException;
 import com.linuxense.javadbf.DBFReader;
 
-public class DBDReader {
+public class DBDReader1 {
 
 	public static int SizeDBT = 200000;
 	public static int SizeAnalog = 700000;
@@ -139,8 +139,7 @@ public class DBDReader {
 			HasAnalogNotZero[i]=false;
 		}
 		// Json format
-		boolean needreadJson = true;
-		if (needreadJson) {
+		if (true) {
 			System.out.println(JSONFile);
 			BufferedReader br = new BufferedReader(new FileReader(
 					JSONFile));
@@ -149,7 +148,7 @@ public class DBDReader {
 			Gson gson = new Gson();
 			prod1 = gson.fromJson(br, product[].class);
 			//prod1 = new product[20000];
-			//System.out.println(prod1);
+			System.out.println(prod1);
 			System.out.println(prod1.length);
 			int zq = 0;
 			for (int i = 0; i < prod1.length; i++) {
@@ -163,11 +162,6 @@ public class DBDReader {
 			}
 			product.setMax_id(zq + 1);
 			//product.setMax_id(0);
-		}else {
-			sqlLogX.writeln("TRUNCATE `oc_product`;");
-			sqlLogX.writeln("TRUNCATE `oc_product_description`;");
-			sqlLogX.writeln("TRUNCATE `oc_product_to_store`;");
-			sqlLogX.writeln("TRUNCATE `oc_product_to_category`;");
 		}
 		System.out.println(product.getMax_id());
 		if (newL!=null){
@@ -178,9 +172,9 @@ public class DBDReader {
 				newL.setText("Read DBF");
 				}
 			InputStream f = new FileInputStream(FilenameDBF);
-			//System.out.println("Open File DBF");
+			System.out.println("Open File DBF");
 			DBFReader file = new DBFReader(f);
-			//System.out.println("Open File DBF2");
+			System.out.println("Open File DBF2");
 			// PrintStream ps = new PrintStream(System.out, true,
 			// "Windows-1251");
 			Object[] rowObject;
@@ -193,7 +187,7 @@ public class DBDReader {
 			while ((rowObject = file.nextRecord()) != null) {
 			//while (z<100) {
 				//rowObject = file.nextRecord();
-				//System.out.println(rowObject[1]);
+				System.out.println(rowObject[1]);
 						
 				//if (Float.parseFloat(rowObject[6].toString()) > 0) {
 				needs=true;
@@ -273,7 +267,7 @@ public class DBDReader {
 			;
 
 			int n=0;int qn=0;
-			System.out.println("Start calc price");
+			System.out.println("END");
 			if (newL!=null){
 				newL.setText("Calculating Price");
 				}
@@ -295,21 +289,15 @@ public class DBDReader {
 					qn=qn+1;
 					//System.out.println(""+i+ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]);
 					String CompSTrI = Integer.toString(i);
-					//System.out.println(CompSTrI);
-					int num1 = i;
-					if (prod[i]==null){
-						num1 = 999999;
-						System.out.println("new pos "+i);
-					}
-					//int num1 = is_product_c1base(prod,CompSTrI);
-					
+					System.out.println(CompSTrI);
+					int num1 = is_product_c1base(prod,CompSTrI);
 					//int num1 = 999999;
-				//	System.out.println(i);
+					System.out.println(i);
 					if (num1 == 999999){
 						n=n+1;
 						//sqlLogX.writeln(ARTIKULC1Base[i]+" "+NAMEBase[i]+" " +KVOBase[i]+" "+CENAC1Base[i]);
-						int prod_id = i;
-						//int tempFreeID=getFreeId(prod);
+						int prod_id = product.getMax_id();
+						int tempFreeID=getFreeId(prod);
 						//int tempFreeID=prod_id+1;
 						prod[prod_id] = new product(ARTIKULC1Base[i]);
 						prod[prod_id].setModel(ARTIKULC1Base[i]);
@@ -318,7 +306,7 @@ public class DBDReader {
 						prod[prod_id].setPrice(Double.parseDouble(CENAC1Base[i])*koef);
 						prod[prod_id].setManufacturer_id(1);
 						prod[prod_id].setCategory_id(1);
-						prod[prod_id].setId(i);
+						prod[prod_id].setId(tempFreeID);
 						prod[prod_id].setTag(CompSTrI);
 						sqlLogX.writeln(prod[prod_id].toSqlDel1String());
 						sqlLogX.writeln(prod[prod_id].toSqlDel2String());
@@ -328,12 +316,12 @@ public class DBDReader {
 						sqlLogX.writeln(prod[prod_id].toSql2String());
 						sqlLogX.writeln(prod[prod_id].toSql3String());
 						sqlLogX.writeln(prod[prod_id].toSql4String());
-						ProductIDJSON[i] = i;
+						ProductIDJSON[i] = tempFreeID;
 					}
 					else {
 						//System.out.println(ARTIKULC1Base[i]+" "+NAMEBase[i] +KVOBase[i]+CENAC1Base[i]);
 						prod[num1].setTag(CompSTrI);
-						ProductIDJSON[i] = num1;
+						ProductIDJSON[i] = num1+1;
 						prod[num1].setQuantity(KVOBase[i]);
 						prod[num1].setPrice(Double.parseDouble(CENAC1Base[i])*koef);}
 						//sqlLogX.writeln(num1);			
@@ -355,8 +343,8 @@ public class DBDReader {
      		 		if (ProductIDJSON[keyN2]>0){
      		 			int rel_Prod_id = relatedProd.getMax_id();
      		 			rel_Prod[rel_Prod_id] = new relatedProd(ProductIDJSON[keyN1], ProductIDJSON[keyN2]);
-     		 			//System.out.println("" + keyN1+";"+keyN2);
-     		 			//System.out.println("" + ProductIDJSON[keyN1]+";"+ProductIDJSON[keyN2]);
+     		 			System.out.println("" + keyN1+";"+keyN2);
+     		 			System.out.println("" + ProductIDJSON[keyN1]+";"+ProductIDJSON[keyN2]);
      		 			
      		 		}   		 		
      		 	}
@@ -379,9 +367,8 @@ public class DBDReader {
 				e.printStackTrace();
 			}
 			for (int i = 0; i < product.getMax_id(); i++){
-				if (prod[i]!=null){
-					sqlLogS.writeln(prod[i].toSqlUpdatePriceQuantity());
-					}
+				sqlLogS.writeln(prod[i].toSqlUpdatePriceQuantity());
+
 				}
 			sqlLogD.writeln("TRUNCATE `oc_product_related`;");
 			for (int i = 0; i < relatedProd.getMax_id(); i++){
@@ -401,8 +388,8 @@ public class DBDReader {
 		} finally {
 		}
 
-		sqlLogX.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'available.png' WHERE `oc_product`.`quantity`>0;");
-		sqlLogX.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'notavailable.png' WHERE `oc_product`.`quantity`=0;");
+		sqlLogX.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'available.png' WHERE `oc_product`.`quantity`>0");
+		sqlLogX.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'notavailable.png' WHERE `oc_product`.`quantity`=0");
 		sqlLogD.stop();
 		sqlLogS.stop();
 		sqlLogX.stop();

@@ -80,7 +80,7 @@ public class WindowsAPP {
       okButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
         	 FileDialog fd = new FileDialog(mainFrame, "Choose a file", FileDialog.LOAD);
-        	 //fd.setDirectory("C:\\");
+        	 fd.setDirectory(config.realpath);
         	 fd.setFile("*.dbf");
         	 fd.setVisible(true);
         	 String filename = fd.getFile();

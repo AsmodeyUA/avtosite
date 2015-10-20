@@ -1,3 +1,15 @@
+
+UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'available.png' WHERE `oc_product`.`quantity` >0
+UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'notavailable.png' WHERE `oc_product`.`quantity` =0
+
+
+
+TRUNCATE `oc_product`;
+TRUNCATE `oc_product_description`;
+TRUNCATE `oc_product_to_store`;
+TRUNCATE `oc_product_to_category`;
+
+
 SELECT GRD_GRAPHIC FROM TOF_GRA_DATA_1 WHERE GRD_ID=57826
 SELECT ALL FROM TOF_GRA_DATA_1 WHERE GRD_ID="57826"
 SELECT * FROM TOF_GRA_DATA_1
