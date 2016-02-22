@@ -403,6 +403,10 @@ public class DBDReader {
 
 		sqlLogX.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'available.png' WHERE `oc_product`.`quantity`>0;");
 		sqlLogX.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'notavailable.png' WHERE `oc_product`.`quantity`=0;");
+		sqlLogD.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'available.png' WHERE `oc_product`.`quantity`>0;");
+		sqlLogD.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'notavailable.png' WHERE `oc_product`.`quantity`=0;");
+		sqlLogS.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'available.png' WHERE `oc_product`.`quantity`>0;");
+		sqlLogS.writeln("UPDATE `anato140_avtolux`.`oc_product` SET `image` = 'notavailable.png' WHERE `oc_product`.`quantity`=0;");
 		sqlLogD.stop();
 		sqlLogS.stop();
 		sqlLogX.stop();

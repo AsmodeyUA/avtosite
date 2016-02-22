@@ -3,7 +3,7 @@ package avtoSite;
 public class config {
 	
 	//public static String winpath = new String("D:\\work\\Dani\\");
-	//public static String linuxpath = new String("/home/asmodeyz/work/Dani_0_1/");
+	//public static String linuxpath = new String("/home/asmodeyz/work/Dani/AvtoSite/");
 	//public static String linuxpath = new String("/local/Avtolux/");
 	public static String realpath = new String("");
 	//public static String realpath = new String(linuxpath);
@@ -15,9 +15,9 @@ public class config {
 	public static String pathDB = new String("BaseDB.xls");
 	public static String pathDBold = new String(realpath + "oldBaseDB.xls");
 	public static String pathAnalog = new String(realpath + "Tovar7.txt");
-	public static String pathSQLD = new String(realpath + "Update1.txt");
-	public static String pathSQLS = new String(realpath + "Update2.txt");
-	public static String pathSQLX = new String(realpath + "NewPosCheck.txt");
+	public static String pathSQLD = new String(realpath + "Update2.txt");
+	public static String pathSQLS = new String(realpath + "Update3.txt");
+	public static String pathSQLX = new String(realpath + "Update1.txt");
 	public static String pathLOG = new String(realpath + "log.txt");
 	public static String pathIMG = new String(realpath + "Image");
 	public static String pathIMGJ = new String(realpath + "ImageJ");
